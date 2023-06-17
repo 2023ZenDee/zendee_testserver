@@ -36,7 +36,8 @@ const signUp = async(req,res) =>{
 
             return res.status(200).json({
                 ok: true,
-                message : "회원가입 성공"
+                message : "회원가입 성공",
+                
             });
         }else{
             return res.status(409).json({message : "이미 존재하는 아이디입니다."});
