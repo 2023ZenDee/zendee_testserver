@@ -1,8 +1,10 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const issues = async (req, res) => {
+const issue = async (req, res) => {
   const { title, content, postImg, lat, lng } = req.body;
+  const userId = req.user.userId;
+  //console.log(userId);
   try {
     const createBoard = await prisma.post.create({
       data: {
@@ -11,6 +13,7 @@ const issues = async (req, res) => {
         postImg,
         longitude: lng,
         latitude: lat,
+        author : {connect : {userId : userId}}
       },
     });
     res.status(200).json({
@@ -26,4 +29,4 @@ const issues = async (req, res) => {
   }
 };
 
-module.exports = issues;
+module.exports = issue;
