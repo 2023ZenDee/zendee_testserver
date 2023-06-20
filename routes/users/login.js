@@ -21,7 +21,7 @@ const login = async (req, res) => {
     // Refresh Token을 쿠키로 설정
     res.cookie('refreshToken', refreshToken, { httpOnly: true });
     res.cookie('accessToken', accessToken, {httpOnly : true});
-    console.log(refreshToken);
+    //console.log(refreshToken);
   
     res.status(200).json({ 
         accessToken,
