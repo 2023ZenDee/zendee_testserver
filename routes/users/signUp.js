@@ -1,15 +1,12 @@
-
-const express = require('express');
 const {PrismaClient} = require('@prisma/client');
 
 const prisma = new PrismaClient;
 
 const crypto = require('crypto');
 
-const router = express.Router();
 
-const signUp = async(req,res) =>{
-    const { user_id, nick, email, password, name} = req.body;
+const register = async(req,res) =>{
+    const { user_id, nick, email, password} = req.body;
     const hashPwd = crypto.createHash("sha512").update(password).digest("base64");
     try{
         console.log(req.body);
@@ -25,7 +22,6 @@ const signUp = async(req,res) =>{
                 nick : nick,
                 email : email,
                 password : hashPwd,
-                name : name,
 
                 
             }
@@ -48,4 +44,4 @@ const signUp = async(req,res) =>{
     }
 }
 
-module.exports = signUp;
+module.exports = register;

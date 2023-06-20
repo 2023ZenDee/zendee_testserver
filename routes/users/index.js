@@ -1,13 +1,14 @@
 const express = require('express');
 const login = require('./login');
-const signUp = require('./signUp');
-const token = require('./token');
+const register = require('./signUp');
+const refreshToken = require('./refreshToken');
 
 
 const router = express.Router();
 
-router.post('/signUp', signUp);
+router.post('/register', register);
 router.post('/login', login);
-router.get('/token',token);
+//router.get('/token',token);
+router.get('/refreshToken',refreshToken);
 
 module.exports = router;
