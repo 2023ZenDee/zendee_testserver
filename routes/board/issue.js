@@ -11,8 +11,8 @@ const issue = async (req, res) => {
         title,
         content,
         postImg,
-        longitude: lng,
-        latitude: lat,
+        longitude: parseFloat(lng),
+        latitude: parseFloat(lat),
         author : {connect : {userId : userId}}
       },
     });
