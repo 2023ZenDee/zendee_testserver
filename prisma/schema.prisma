@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+  userIdx  Int @id @default(autoincrement())
+  userId String @unique 
+  nick String @unique
+  password String
+  image String @default("null")
+  email String 
+  email_check Boolean @default(false)
+  role Role @default(USER)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  posts Post[]
+  comments Comment[]
+  postReporter PostReporter[]
+  commentReporter CommentReporter[]
+  likes Likes[]
+}
+
+model Post{
+  postIdx Int @id @default(autoincrement())
+  title String 
+  content String @db.VarChar(4000)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  latitude Float
+  longitude Float
+  deleted_at DateTime?
+  authorIdx Int
+  postImg String
+
+  author User @relation(fields: [authorIdx], references: [userIdx])
+
+  comments Comment[]
+  tags Tag[]
+  postReporter PostReporter[]
+  commentReporter CommentReporter[]
+  likes Likes[]
+}
+
+model Comment{
+  cmtIdx Int @id @default(autoincrement())
+  cmtContent String @db.VarChar(500)
+  created_at DateTime @default(now())
+  deleted_at DateTime?
+
+  authorIdx Int
+  posterIdx Int
+  author User @relation(fields: [authorIdx], references: [userIdx])
+  poster Post @relation(fields: [posterIdx], references: [postIdx])  
+}
+model Tag{
+  tagIdx Int @id @default(autoincrement())
+  tagName String
+  posterIdx Int
+  poster Post @relation(fields: [posterIdx], references: [postIdx])
+}
+
+model PostReporter{
+  postReporterIdx Int @id @default(autoincrement())
+  portReporterContent String 
+  postReported_at DateTime @default(now())
+
+  posterIdx Int
+  authorIdx Int
+  poster Post @relation(fields: [posterIdx], references: [postIdx])
+  author User @relation(fields: [authorIdx], references: [userIdx] )
+
+}
+
+model CommentReporter{
+  cmtReporterIdx Int @id @default(autoincrement())
+  cmtReportContent String 
+  cmtReported_at DateTime @default(now())
+
+  posterIdx Int
+  authorIdx Int
+  poster Post @relation(fields: [posterIdx], references: [postIdx])
+  author User @relation(fields: [authorIdx], references: [userIdx])
+  
+}
+
+model Likes{
+  likeIdx Int @id @default(autoincrement())
+  likesBad Boolean 
+  
+  posterIdx Int
+  authorIdx Int
+  
+  poster Post @relation(fields: [posterIdx], references: [postIdx])
+  author User @relation(fields: [authorIdx], references: [userIdx])
+}
+enum Role{
+  USER
+  ADMIN
+}
