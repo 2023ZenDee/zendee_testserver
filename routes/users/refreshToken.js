@@ -28,12 +28,7 @@ const refreshToken = async (req, res) => {
       res.status(200).json({ accessToken });
     } catch (err) {
         if(err.name=== 'TokenExpiredError'){
-<<<<<<< HEAD
             return res.status(401).json({ message: 'RefreshToken이 만료되었습니다.' });
-=======
-            console.log('토큰이 만료되었습니다.');
-            return res.status(401).json({ message: '토큰이 만료되었습니다.' });
->>>>>>> a2a0d39a64f54b4697d52e9d3e0d90930e0433bf
         }
         console.log(err);
       return res.status(401).json({ message: '유효하지 않은 Refresh Token입니다.' });
