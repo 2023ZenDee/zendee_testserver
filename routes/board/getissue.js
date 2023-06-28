@@ -15,6 +15,9 @@ const getIssue = async(req, res) => {
                     gte : parseFloat(longitude) - 0.02,
                     lte : parseFloat(longitude) + 0.02,
                 },
+                deleted_at: {
+                    not : new Date(),
+                }
             }
         });
         //현지 위치에서 2km 반경 이내에 게시물 필터링

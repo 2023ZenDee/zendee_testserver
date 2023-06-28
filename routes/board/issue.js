@@ -13,7 +13,8 @@ const issue = async (req, res) => {
         postImg,
         longitude: parseFloat(lng),
         latitude: parseFloat(lat),
-        author : {connect : {userId : userId}}
+        author : {connect : {userId : userId}},
+        deleted_at : new Date(Date.now() + 72*60*60*1000)
       },
     });
     res.status(200).json({
