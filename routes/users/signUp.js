@@ -26,7 +26,7 @@ const register = async(req,res) =>{
                 
             }
 
-            const createUser = await prisma.user.create({
+            await prisma.user.create({
                 data:user,
             });
 
