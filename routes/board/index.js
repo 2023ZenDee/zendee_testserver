@@ -4,10 +4,13 @@ const router = express.Router();
 const { authenticateUser}  = require('../../middleware/authenticate');
 const getIssue = require('./getissue');
 const getBoard = require('./getboard');
+const deleteIssue = require('./delissue');
 
 
 router.post('/', authenticateUser ,issues);
 router.get('/mymap',authenticateUser, getIssue);
 router.get('/board/:page',authenticateUser, getBoard);
+
+router.delete('/delete/:page', authenticateUser, deleteIssue);
 
 module.exports = router;
