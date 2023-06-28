@@ -6,7 +6,7 @@ const issue = async (req, res) => {
   const userId = req.user.userId;
   //console.log(userId);
   try {
-    const createBoard = await prisma.post.create({
+    await prisma.post.create({
       data: {
         title,
         content,
