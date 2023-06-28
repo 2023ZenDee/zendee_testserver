@@ -6,6 +6,7 @@ const logout = require('./logout');
 const check = require('./idcheck');
 const { authenticateUser } = require('../../middleware/authenticate');
 const getUser = require('./getUser');
+const delUser = require('./deluser');
 
 
 const router = express.Router();
@@ -16,6 +17,7 @@ router.post('/check', check);
 router.get('/refreshToken',refreshToken);
 router.get('/', authenticateUser, getUser);
 
+router.delete('/user/:num', authenticateUser,delUser);
 router.delete('/logout', authenticateUser,logout);
 
 module.exports = router;
