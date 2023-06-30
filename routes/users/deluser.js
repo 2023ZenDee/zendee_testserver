@@ -23,6 +23,7 @@ const delUser = async(req, res) =>{
     
           if (user.userIdx !== userId) {
             return res.status(403).send({
+              
               message: '자신의 계정만 삭제할 수 있습니다.',
             });
           }

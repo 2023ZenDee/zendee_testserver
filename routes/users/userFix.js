@@ -6,7 +6,7 @@ const userFix = async(req, res) => {
         const { nick, image} = req.body;
     const userId = req.user.userIdx; 
     
-        await prisma.user.update({
+        const updateUser = await prisma.user.update({
         where:{
             userIdx : userId
         },
@@ -16,7 +16,10 @@ const userFix = async(req, res) => {
         }
     });
     return res.status(200).send({
-        message : "유저 정보 수정 성공"
+        message : "유저 정보 수정 성공",
+        data:{
+            updateUser
+        }
     })
     }catch(err){
         console.error(err);
