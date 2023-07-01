@@ -94,7 +94,7 @@ model CommentReporter{
 
 model Likes{
   likeIdx Int @id @default(autoincrement())
-  likesBad Boolean 
+  likesBad Boolean?
   
   posterIdx Int
   authorIdx Int
