@@ -9,6 +9,7 @@ const getUser = require('./getUser');
 const delUser = require('./deluser');
 const userFix = require('./userFix');
 const myIssue = require('./myissue');
+const changePwd = require('./fixpwd');
 
 
 const router = express.Router();
@@ -20,6 +21,8 @@ router.get('/refreshToken',refreshToken);
 router.get('/', authenticateUser, getUser);
 router.get('/myIssue', authenticateUser, myIssue);
 router.patch('/userFix', authenticateUser,userFix);
+router.patch('/changePassword',authenticateUser,changePwd)
+
 
 router.delete('/user/:num', authenticateUser,delUser);
 router.delete('/logout', authenticateUser,logout);
