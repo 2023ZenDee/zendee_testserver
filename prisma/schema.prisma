@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,99 +7,112 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
-  userIdx  Int @id @default(autoincrement())
-  userId String @unique 
-  nick String @unique
-  password String
-  image String @default("null")
-  email String 
-  email_check Boolean @default(false)
-  role Role @default(USER)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-
-  posts Post[]
-  comments Comment[]
-  postReporter PostReporter[]
-  commentReporter CommentReporter[]
-  likes Likes[]
-}
-
-model Post{
-  postIdx Int @id @default(autoincrement())
-  title String 
-  content String @db.VarChar(4000)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  latitude Float
-  longitude Float
+model comment {
+  cmtIdx     Int       @id @default(autoincrement())
+  cmtContent String    @db.VarChar(500)
+  created_at DateTime  @default(now())
   deleted_at DateTime?
-  authorIdx Int
-  postImg String
+  authorIdx  Int
+  posterIdx  Int
+  user       user      @relation(fields: [authorIdx], references: [userIdx], map: "Comment_authorIdx_fkey")
+  post       post      @relation(fields: [posterIdx], references: [postIdx], map: "Comment_posterIdx_fkey")
 
-  author User @relation(fields: [authorIdx], references: [userIdx])
-
-  comments Comment[]
-  tags Tag[]
-  postReporter PostReporter[]
-  commentReporter CommentReporter[]
-  likes Likes[]
+  @@index([authorIdx], map: "Comment_authorIdx_fkey")
+  @@index([posterIdx], map: "Comment_posterIdx_fkey")
 }
 
-model Comment{
-  cmtIdx Int @id @default(autoincrement())
-  cmtContent String @db.VarChar(500)
-  created_at DateTime @default(now())
-  deleted_at DateTime?
+model commentreporter {
+  cmtReporterIdx   Int      @id @default(autoincrement())
+  cmtReportContent String
+  cmtReported_at   DateTime @default(now())
+  posterIdx        Int
+  authorIdx        Int
+  user             user     @relation(fields: [authorIdx], references: [userIdx], map: "CommentReporter_authorIdx_fkey")
+  post             post     @relation(fields: [posterIdx], references: [postIdx], map: "CommentReporter_posterIdx_fkey")
 
-  authorIdx Int
-  posterIdx Int
-  author User @relation(fields: [authorIdx], references: [userIdx])
-  poster Post @relation(fields: [posterIdx], references: [postIdx])  
-}
-model Tag{
-  tagIdx Int @id @default(autoincrement())
-  tagName String
-  posterIdx Int
-  poster Post @relation(fields: [posterIdx], references: [postIdx])
+  @@index([authorIdx], map: "CommentReporter_authorIdx_fkey")
+  @@index([posterIdx], map: "CommentReporter_posterIdx_fkey")
 }
 
-model PostReporter{
-  postReporterIdx Int @id @default(autoincrement())
-  portReporterContent String 
-  postReported_at DateTime @default(now())
-
+model likes {
+  likeIdx   Int      @id @default(autoincrement())
+  likesBad  Boolean?
   posterIdx Int
   authorIdx Int
-  poster Post @relation(fields: [posterIdx], references: [postIdx])
-  author User @relation(fields: [authorIdx], references: [userIdx] )
+  user      user     @relation(fields: [authorIdx], references: [userIdx], map: "Likes_authorIdx_fkey")
+  post      post     @relation(fields: [posterIdx], references: [postIdx], map: "Likes_posterIdx_fkey")
 
+  @@index([authorIdx], map: "Likes_authorIdx_fkey")
+  @@index([posterIdx], map: "Likes_posterIdx_fkey")
 }
 
-model CommentReporter{
-  cmtReporterIdx Int @id @default(autoincrement())
-  cmtReportContent String 
-  cmtReported_at DateTime @default(now())
+model post {
+  postIdx         Int               @id @default(autoincrement())
+  title           String
+  content         String            @db.VarChar(4000)
+  created_at      DateTime          @default(now())
+  updated_at      DateTime
+  latitude        Float
+  longitude       Float
+  deleted_at      DateTime?
+  authorIdx       Int
+  postImg         String
+  comment         comment[]
+  commentreporter commentreporter[]
+  likes           likes[]
+  user            user              @relation(fields: [authorIdx], references: [userIdx], map: "Post_authorIdx_fkey")
+  tags TagOnPosts[]
+  postreporter    postreporter[]
 
-  posterIdx Int
-  authorIdx Int
-  poster Post @relation(fields: [posterIdx], references: [postIdx])
-  author User @relation(fields: [authorIdx], references: [userIdx])
-  
+  @@index([authorIdx], map: "Post_authorIdx_fkey")
 }
 
-model Likes{
-  likeIdx Int @id @default(autoincrement())
-  likesBad Boolean?
-  
-  posterIdx Int
-  authorIdx Int
-  
-  poster Post @relation(fields: [posterIdx], references: [postIdx])
-  author User @relation(fields: [authorIdx], references: [userIdx])
+model postreporter {
+  postReporterIdx     Int      @id @default(autoincrement())
+  portReporterContent String
+  postReported_at     DateTime @default(now())
+  posterIdx           Int
+  authorIdx           Int
+  user                user     @relation(fields: [authorIdx], references: [userIdx], map: "PostReporter_authorIdx_fkey")
+  post                post     @relation(fields: [posterIdx], references: [postIdx], map: "PostReporter_posterIdx_fkey")
+
+  @@index([authorIdx], map: "PostReporter_authorIdx_fkey")
+  @@index([posterIdx], map: "PostReporter_posterIdx_fkey")
 }
-enum Role{
+
+model tag {
+  tagIdx   Int        @id @default(autoincrement())
+  tagName  String
+  post     TagOnPosts[]
+}
+
+model user {
+  userIdx         Int               @id @default(autoincrement())
+  userId          String            @unique(map: "User_userId_key")
+  nick            String            @unique(map: "User_nick_key")
+  password        String
+  image           String            @default("null")
+  email           String
+  email_check     Boolean           @default(false)
+  role            user_role         @default(USER)
+  created_at      DateTime          @default(now())
+  updated_at      DateTime
+  comment         comment[]
+  commentreporter commentreporter[]
+  likes           likes[]
+  post            post[]
+  postreporter    postreporter[]
+}
+model TagOnPosts {
+  post        post    @relation(fields: [postIdx], references: [postIdx])
+  postIdx      Int       
+  tag    tag @relation(fields: [tagIdx], references: [tagIdx])
+  tagIdx  Int      
+  createdAt   DateTime @default(now())
+  @@id([postIdx, tagIdx])
+}
+
+enum user_role {
   USER
   ADMIN
 }
