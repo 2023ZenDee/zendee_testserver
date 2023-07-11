@@ -31,7 +31,6 @@ const register = async(req,res) =>{
             });
 
             return res.status(200).json({
-                ok: true,
                 message : "회원가입 성공",
                 
             });
