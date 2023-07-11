@@ -4,7 +4,7 @@ const { authenticateUser } = require('../../middleware/authenticate');
 const router = express.Router();
 
 
-router.post("/", authenticateUser,comments);
+router.post("/:page", authenticateUser,comments);
 
 
 
