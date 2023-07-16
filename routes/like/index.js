@@ -3,7 +3,7 @@ const likePost = require('./like');
 const { authenticateUser } = require('../../middleware/authenticate');
 const router = express.Router();
 
-router.post('/:post', authenticateUser,likePost);
+router.post('/:postId', authenticateUser,likePost);
 
 
 
