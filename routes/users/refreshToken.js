@@ -2,13 +2,17 @@ const { PrismaClient} = require('@prisma/client');
 const { generateAccessToken} = require('../../util/jwt');
 const prisma = new PrismaClient();
 const jwt = require('jsonwebtoken');
+const authUtil = require('../../module/authUtil');
+const responseMessage = require('../../module/responseMessage');
+const statusCode = require('../../module/statusCode');
 require('dotenv').config();
 const secret = process.env.SECRET_KEY;
 const refreshToken = async (req, res) => {
-    const refreshToken = req.cookies.refreshToken; // 쿠키에서 Refresh Token을 가져옴
-    console.log(refreshToken);
+    const refreshToken = req.headers.refresh; // 쿠키에서 Refresh Token을 가져옴
     if (!refreshToken) {
-      return res.status(401).json({ message: 'Refresh Token이 없습니다.' });
+      return res.status(401).json(
+        authUtil.successTrue(statusCode.UNAUTHORIZED,responseMessage.NO_REFRESH_TOKEN)
+      );
     }
   
     try {
@@ -19,7 +23,9 @@ const refreshToken = async (req, res) => {
       const user = await prisma.user.findUnique({ where: { userId } });
   
       if (!user) {
-        return res.status(401).json({ message: '유효하지 않은 사용자입니다.' });
+        return res.status(401).json(
+          authUtil.successTrue(statusCode.UNAUTHORIZED, responseMessage.NO_USER)
+        );
       }
   
       // 새로운 Access Token 생성
@@ -28,10 +34,14 @@ const refreshToken = async (req, res) => {
       res.status(200).json({ accessToken });
     } catch (err) {
         if(err.name=== 'TokenExpiredError'){
-            return res.status(401).json({ message: 'RefreshToken이 만료되었습니다.' });
+            return res.status(401).json(
+              authUtil.successTrue(statusCode.UNAUTHORIZED, responseMessage.REFRESH_TOKEN_EXPIRED)
+            );
         }
         console.log(err);
-      return res.status(401).json({ message: '유효하지 않은 Refresh Token입니다.' });
+      return res.status(401).json(
+        authUtil.successTrue(statusCode.UNAUTHORIZED, responseMessage.INVALID_REFRESH_TOKEN)
+      );
     }
   };
 

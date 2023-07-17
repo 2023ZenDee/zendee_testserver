@@ -10,7 +10,12 @@ module.exports = {
   NO_ACCESS_TOKEN : "AccessToken이 없습니다",
   TOKEN_EXPRIED : "AccessToken이 만료되었습니다. 다시 로그인 해주십시오.",
   INVALID_ACCESS_TOKEN : "유효하지 않은 Access Token입니다.",
-  NO_USER : "유효하지 않은 유저 입니다."
+  NO_USER : "유효하지 않은 사용자 입니다.",
 
+  NO_REFRESH_TOKEN : "RefreshToken이 없습니다.",
+  REFRESH_TOKEN_EXPIRED : "RefreshToken이 만료되었습니다.",
+  INVALID_REFRESH_TOKEN : "유효하지 않은 Refresh Token입니다.",
+
+  
 
 };
