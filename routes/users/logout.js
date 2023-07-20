@@ -1,7 +1,7 @@
 const logout = (req,res) =>{
     try{
         res.clearCookie('accessToken');
-    res.clearCookie('refreshToken');
+        res.clearCookie('refreshToken');
 
     res.status(200).json({
         message : "로그아웃 되었습니다."

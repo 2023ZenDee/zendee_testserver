@@ -29,4 +29,8 @@ module.exports = {
   COMMENT_ONLY_AUTHOR : "자신이 쓴 댓글만 삭제할 수 있습니다",
   COMMENT_DELETE : "댓글이 삭제되었습니다.",
   COMMENT_DELETE_SERVER_ERROR : "댓글 삭제 실패",
+
+  ISSUE_ONLY_AUTHOR : "자신의 이슈만 수정할 수 있습니다.",
+  ISSUE_FIX_SERVER_ERROR : "이슈 수정 실패",
+  ISSUE_FIX_SUCCESS : "이슈가 수정되었습니다.",
 };
