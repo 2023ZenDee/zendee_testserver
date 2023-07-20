@@ -8,7 +8,7 @@ const router = express.Router();
 router.use('/auth',userRouter);
 router.use('/issues', postRouter);
 router.use('/like', likeRouter);
-router.use('/comment', commentRouter);
+router.use('/comments', commentRouter);
 
 
 module.exports = router;

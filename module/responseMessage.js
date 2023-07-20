@@ -16,6 +16,17 @@ module.exports = {
   REFRESH_TOKEN_EXPIRED : "RefreshToken이 만료되었습니다.",
   INVALID_REFRESH_TOKEN : "유효하지 않은 Refresh Token입니다.",
 
-  
+  COMMENT_GET_SERVER_ERROR : "댓글 가져오기 실패",
+  COMMENT_CREATED_SERVER_ERROR : "댓글 업데이트 실패",
+  COMMENT_CREATED : "댓글이 성공적으로 업데이트 되었습니다.",
+  COMMENT_GET_SUCCESS : "댓글을 성공적으로 가져왔습니다",
+  COMMENT_NO_CONTENT : "댓글이 없습니다.", 
 
+  COMMENT_NOT_AUTHOR : "자신의 댓글만 삭제할 수 있습니다",
+  COMMENT_UPDATE_SUCCESS : "댓글이 수정되었습니다.",
+  COMMENT_UPDATE_FALSE : "댓글 수정 실패",
+
+  COMMENT_ONLY_AUTHOR : "자신이 쓴 댓글만 삭제할 수 있습니다",
+  COMMENT_DELETE : "댓글이 삭제되었습니다.",
+  COMMENT_DELETE_SERVER_ERROR : "댓글 삭제 실패",
 };
