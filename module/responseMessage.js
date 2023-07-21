@@ -33,4 +33,8 @@ module.exports = {
   ISSUE_ONLY_AUTHOR : "자신의 이슈만 수정할 수 있습니다.",
   ISSUE_FIX_SERVER_ERROR : "이슈 수정 실패",
   ISSUE_FIX_SUCCESS : "이슈가 수정되었습니다.",
+
+  MY_COMMENTS_GET_SUCCESS : "내가 작성한 댓글을 성공적으로 불러왔습니다.",
+  EMPRY_MY_COMMENT : "아직 내가 작성한 댓글이 없습니다.",
+  MY_COMMENTS_GET_FALSE : "내가 작성한 댓글을 불러오지 못했습니다",
 };
