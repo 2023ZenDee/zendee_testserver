@@ -42,6 +42,13 @@ module.exports = {
   LOGOUT_SUCCESS : "로그아웃 되었습니다.",
 
   LIKE_ERROR : "좋아요와 싫어요 오류 발생",
+  
+  MY_LIKE_ISSUE : "내가 누른 좋아요 불러오기 성공",
+  MY_LIKE_EMPTY : "아직 내가 누른 좋아요가 없습니다!",
+  MY_BAD_ISSUE : "내가 누른 싫어요 불러오기 성공",
+  MY_BAD_EMPTY : "아직 내가 누른 싫어요가 없습니다.",
 
+  MY_LIKE_SERVER_ERROR : "나의 좋아요 서버 에러",
+  MY_BAD_SERVER_ERROR : "나의 싫어요 서버 에러",
 
 };
