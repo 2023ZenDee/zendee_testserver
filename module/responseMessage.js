@@ -40,6 +40,8 @@ module.exports = {
 
   LOGOUT_USER : "이미 로그아웃된 사용자 입니다",
   LOGOUT_SUCCESS : "로그아웃 되었습니다.",
-  
-  INTERNAL_SERVER_ERROR : "redis Server ERROR",
+
+  LIKE_ERROR : "좋아요와 싫어요 오류 발생",
+
+
 };
