@@ -2,8 +2,6 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const delUser = async(req, res) =>{
-    const userNum = req.params;
-    const num = parseInt(userNum.num);
     const userId = req.user.userIdx;
     try{
         
