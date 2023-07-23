@@ -22,7 +22,6 @@
     "mysql2": "^3.3.5",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
-    "redis": "^4.6.7",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.3"
   },

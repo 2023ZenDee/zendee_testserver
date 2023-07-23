@@ -37,4 +37,9 @@ module.exports = {
   MY_COMMENTS_GET_SUCCESS : "내가 작성한 댓글을 성공적으로 불러왔습니다.",
   EMPRY_MY_COMMENT : "아직 내가 작성한 댓글이 없습니다.",
   MY_COMMENTS_GET_FALSE : "내가 작성한 댓글을 불러오지 못했습니다",
+
+  LOGOUT_USER : "이미 로그아웃된 사용자 입니다",
+  LOGOUT_SUCCESS : "로그아웃 되었습니다.",
+  
+  INTERNAL_SERVER_ERROR : "redis Server ERROR",
 };
