@@ -51,4 +51,6 @@ module.exports = {
   MY_LIKE_SERVER_ERROR : "나의 좋아요 서버 에러",
   MY_BAD_SERVER_ERROR : "나의 싫어요 서버 에러",
 
+  ISSUE_REPORT_SUCCESS : "이슈가 신고되었습니다.",
+  ISSUE_REPORT_ERROR : "이슈 신고가 되지 않았습니다.",
 };
