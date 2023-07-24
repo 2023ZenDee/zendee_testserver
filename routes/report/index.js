@@ -5,7 +5,7 @@ const { authenticateUser } = require('../../middleware/authenticate');
 const router = express.Router();
 
 router.post('/issue/:idx', authenticateUser,issueReport);
-router.post('/comment', authenticateUser,commentReport);
+router.post('/comment/:idx', authenticateUser,commentReport);
 
 
 module.exports = router;

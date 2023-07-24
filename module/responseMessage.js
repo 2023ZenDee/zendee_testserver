@@ -53,4 +53,6 @@ module.exports = {
 
   ISSUE_REPORT_SUCCESS : "이슈가 신고되었습니다.",
   ISSUE_REPORT_ERROR : "이슈 신고가 되지 않았습니다.",
+
+  COMMENT_REPORT_ERROR : "댓글 신고가 되지 않았습니다.",
 };

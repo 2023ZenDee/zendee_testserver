@@ -17,6 +17,8 @@ model comment {
   user       user      @relation(fields: [authorIdx], references: [userIdx], map: "Comment_authorIdx_fkey")
   post       post      @relation(fields: [posterIdx], references: [postIdx], map: "Comment_posterIdx_fkey")
 
+
+  comment commentreporter[]
   @@index([authorIdx], map: "Comment_authorIdx_fkey")
   @@index([posterIdx], map: "Comment_posterIdx_fkey")
 }
@@ -25,13 +27,13 @@ model commentreporter {
   cmtReporterIdx   Int      @id @default(autoincrement())
   cmtReportContent String
   cmtReported_at   DateTime @default(now())
-  posterIdx        Int
   authorIdx        Int
+  commentIdx Int
   user             user     @relation(fields: [authorIdx], references: [userIdx], map: "CommentReporter_authorIdx_fkey")
-  post             post     @relation(fields: [posterIdx], references: [postIdx], map: "CommentReporter_posterIdx_fkey")
+  comment comment  @relation(fields: [commentIdx], references: [cmtIdx])
 
+  @@index([commentIdx])
   @@index([authorIdx], map: "CommentReporter_authorIdx_fkey")
-  @@index([posterIdx], map: "CommentReporter_posterIdx_fkey")
 }
 
 model likes {
@@ -58,7 +60,7 @@ model post {
   authorIdx       Int
   postImg         String
   comment         comment[]
-  commentreporter commentreporter[]
+
   likes           likes[]
   user            user              @relation(fields: [authorIdx], references: [userIdx], map: "Post_authorIdx_fkey")
   tags TagOnPosts[]
