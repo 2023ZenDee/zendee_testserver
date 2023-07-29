@@ -10,7 +10,9 @@ const sendMail = async (req, res) => {
   let emailTemplete;
   ejs.renderFile(
     appDir + "/template/authMail.ejs",
-    { authCode: authNum },
+    { authCode: authNum ,
+    email : email},
+
     function (err, data) {
       if (err) {
         console.log(err);
@@ -39,7 +41,7 @@ const sendMail = async (req, res) => {
     if (err) {
       console.log(err);
     }
-    console.log("Finish sending email : ", info.response);
+    console.log("Finish sending email : ", email);
     res.send(authNum);
     transporter.close();
   });

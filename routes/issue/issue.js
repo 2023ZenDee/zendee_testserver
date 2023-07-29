@@ -1,4 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
+const authUtil = require('../../module/authUtil');
+const statusCode = require('../../module/statusCode');
+const responseMessage = require('../../module/responseMessage');
 const prisma = new PrismaClient();
 
 const issue = async (req, res) => {
@@ -7,9 +10,9 @@ const issue = async (req, res) => {
 
   const validTags = ['위험', '안내', '속보'];
   if (!validTags.includes(tag)) {
-    return res.status(400).send({
-      message: '유효하지 않은 태그입니다.',
-    });
+    return res.status(200).send(
+      authUtil.successTrue(statusCode.BAD_REQUEST, responseMessage.INVALID_TAG)
+    );
   }
 
   try {
@@ -38,18 +41,15 @@ const issue = async (req, res) => {
       },
     });
 
-    res.status(200).json({
-      ok: true,
-      message: '게시물이 성공적으로 업데이트되었습니다.',
-      data: newPost,
-    });
+    return res.status(200).send(
+      authUtil.successTrue(statusCode.CREATED, responseMessage.SUCCESS_CREATED_ISSUE,newPost)
+    );
   } catch (err) {
     console.log(err);
-    res.status(500).send({
-      ok: false,
-      message: err.message,
-    });
-  }
-};
+    return res.status(500).send(
+      authUtil.successFalse(statusCode.INTERNAL_SERVER_ERROR, responseMessage.FALSE_CREATED_ISSUE)
+    )
+  };
+}
 
-module.exports = issue;
+module.exports = issue

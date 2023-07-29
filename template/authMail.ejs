@@ -1,9 +1,13 @@
 <html>
-    <body>
-        <div>
-            <p style = 'color:black'>회원 가입을 위한 인증 번호 입니다.</p>
-            <p style = 'color: black'>아래의 인증 번호를 입력하여 인증을 완료해주세요.</p>
-            <h2>< %= authCode %></h2>
-        </div>
-    </body>
+  <body>
+    <div style="font-size:13px;">
+		회원가입 해주셔서 감사합니다.
+	</div>
+	<div style="font-size:13px;">
+	  해당 메일은 <%= email %>이 정확한 이메일 주소인지 확인하는 메일입니다.
+	</div>
+    <div style="font-size:18px;">
+      인증코드는 [ <%= authCode %> ] 입니다.
+    </div>
+  </body>
 </html>

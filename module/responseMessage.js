@@ -66,5 +66,11 @@ module.exports = {
   MY_AROUND_NOTFOUND_ISSUE : "근처에 이슈가 없습니다.",
 
   EXPIRED_POST : "만료된 이슈 입니다.",
-  
+  INVALID_TAG  : "유효하지 않은 태그 입니다.",
+
+  SUCCESS_CREATED_ISSUE : "이슈가 성공적으로 업데이트 되었습니다.",
+  FALSE_CREATED_ISSUE : "이슈 생성 실패하였습니다.",
+
+  SUCCESS_EMAIL_CHECK : "이메일 인증에 성공하였습니다.",
+  FALSE_EMAIL_CHECK : "인증번호가 맞지 않습니다. 다시 확인하여 주십시오.",
 };
