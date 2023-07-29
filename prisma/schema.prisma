@@ -59,6 +59,7 @@ model post {
   deleted_at      DateTime?
   authorIdx       Int
   postImg         String
+  views    Int     @default(0) // 조회수 필드
   comment         comment[]
 
   likes           likes[]
