@@ -6,15 +6,22 @@ const prisma = new PrismaClient();
 
 const getBoard = async(req, res) =>{
     const page = parseInt(req.params.page);
+    let nowDate = new Date();
     try{
         const board = await prisma.post.findUnique({
             where :{
                 postIdx : page
             }
         })
+        
         if(!board){
             return res.status(200).send(
                 authUtil.successTrue(statusCode.NOT_FOUND, responseMessage.NOT_FOUND_ISSUE)
+            )
+        }
+        if(board.deleted_at > nowDate){
+            return res.status(200).send(
+                authUtil.successTrue(statusCode.UNAUTHORIZED, responseMessage.EXPIRED_POST)
             )
         }
         const views = await prisma.post.update({

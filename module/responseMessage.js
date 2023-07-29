@@ -63,7 +63,8 @@ module.exports = {
   NOT_FOUND_ISSUE : "존재하지 않는 이슈입니다.",
   SUCCESS_FOUND_ISSUE : "이슈 조회 성공!",
   FALSE_FOUND_ISSUE : "이슈 조회 실패 :(",
-  MY_AROUND_NOTFOUND_ISSUE : "근처에 이슈가 없습니다."
+  MY_AROUND_NOTFOUND_ISSUE : "근처에 이슈가 없습니다.",
 
+  EXPIRED_POST : "만료된 이슈 입니다.",
   
 };
