@@ -34,6 +34,10 @@ module.exports = {
   ISSUE_FIX_SERVER_ERROR : "이슈 수정 실패",
   ISSUE_FIX_SUCCESS : "이슈가 수정되었습니다.",
 
+  ISSUE_DELETE_SUCCESS : "이슈가 삭제되었습니다.",
+  ISSUE_DELETE_FALSE : "이슈 삭제 실패하였습니다.",
+
+
   MY_COMMENTS_GET_SUCCESS : "내가 작성한 댓글을 성공적으로 불러왔습니다.",
   EMPRY_MY_COMMENT : "아직 내가 작성한 댓글이 없습니다.",
   MY_COMMENTS_GET_FALSE : "내가 작성한 댓글을 불러오지 못했습니다",
@@ -55,4 +59,11 @@ module.exports = {
   ISSUE_REPORT_ERROR : "이슈 신고가 되지 않았습니다.",
 
   COMMENT_REPORT_ERROR : "댓글 신고가 되지 않았습니다.",
+
+  NOT_FOUND_ISSUE : "존재하지 않는 이슈입니다.",
+  SUCCESS_FOUND_ISSUE : "이슈 조회 성공!",
+  FALSE_FOUND_ISSUE : "이슈 조회 실패 :(",
+  MY_AROUND_NOTFOUND_ISSUE : "근처에 이슈가 없습니다."
+
+  
 };

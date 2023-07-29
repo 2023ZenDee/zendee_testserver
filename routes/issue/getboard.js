@@ -1,4 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
+const authUtil = require('../../module/authUtil');
+const statusCode = require('../../module/statusCode');
+const responseMessage = require('../../module/responseMessage');
 const prisma = new PrismaClient();
 
 const getBoard = async(req, res) =>{
@@ -9,6 +12,11 @@ const getBoard = async(req, res) =>{
                 postIdx : page
             }
         })
+        if(!board){
+            return res.status(200).send(
+                authUtil.successTrue(statusCode.NOT_FOUND, responseMessage.NOT_FOUND_ISSUE)
+            )
+        }
         const views = await prisma.post.update({
             where :{
                 postIdx : page
@@ -17,17 +25,14 @@ const getBoard = async(req, res) =>{
                views : board.views+1 
             }
         })
-        return res.status(200).json({
-            message : "게시물 정보 읽어옴",
-            data: {
-                views
-            }
-        })
+        return res.status(200).json(
+            authUtil.successTrue(statusCode.OK, responseMessage.SUCCESS_FOUND_ISSUE,views)
+        )
     }catch(err){
         console.error(err);
-        return res.status(500).send({
-            message : "게시물 정보 못 읽어옴"
-        })
+        return res.status(500).send(
+            authUtil.successFalse(statusCode.INTERNAL_SERVER_ERROR, responseMessage.FALSE_FOUND_ISSUE)
+        )
     }
 
 }

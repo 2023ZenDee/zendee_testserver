@@ -1,19 +1,23 @@
 const { PrismaClient} = require('@prisma/client');
+const authUtil = require('../../module/authUtil');
+const statusCode = require('../../module/statusCode');
+const responseMessage = require('../../module/responseMessage');
+const { response } = require('express');
 const prisma = new PrismaClient();
 
 const getIssue = async(req, res) => {
     try{
-        const { latitude, longitude} = req.query;
+        const { lat, lng} = req.query;
 
         const filteringIssue = await prisma.post.findMany({
             where: {
                 latitude : {
-                    gte : parseFloat(latitude)- 0.02,
-                    lte : parseFloat(latitude) + 0.02,
+                    gte : parseFloat(lat)- 0.02,
+                    lte : parseFloat(lat) + 0.02,
                 },
                 longitude: {
-                    gte : parseFloat(longitude) - 0.02,
-                    lte : parseFloat(longitude) + 0.02,
+                    gte : parseFloat(lng) - 0.02,
+                    lte : parseFloat(lng) + 0.02,
                 },
                 deleted_at: {
                     not : new Date(),
@@ -21,15 +25,19 @@ const getIssue = async(req, res) => {
             }
         });
         //현지 위치에서 2km 반경 이내에 게시물 필터링
-        res.status(200).send({
-            message : "게시물 조회 성공",
-            data : {
-                filteringIssue
-            }
-        })
+        if(filteringIssue){
+            return res.status(200).send(
+                authUtil.successTrue(statusCode.NO_CONTENT, responseMessage.MY_AROUND_NOTFOUND_ISSUE)
+            )
+        }
+        res.status(200).send(
+            authUtil.successTrue(statusCode.OK, responseMessage.SUCCESS_FOUND_ISSUE,filteringIssue)
+        )
     }catch(err){
-        console.error(err);
-        res.status(500).send({ message : '게시물 조회 실패'});
+        console.log(err);
+        return res.status(200).send(
+            authUtil.successFalse(statusCode.OK, responseMessage.FALSE_FOUND_ISSUE)
+        )
     }
     
 }
