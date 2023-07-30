@@ -93,4 +93,7 @@ module.exports = {
 
   SUCCESS_USER_FIX: "유저 정보가 수정되었습니다.",
   FALSE_USER_FIX: "유저 정보 수정을 실패하였습니다.",
+
+  SUCCESS_SORT :"정렬되었습니다.",
+  FALSE_SORT : "정렬에 실패하였습니다.",
 };
