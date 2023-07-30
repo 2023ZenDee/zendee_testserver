@@ -22,7 +22,7 @@ const login = async (req, res) => {
 
     const accessToken = generateAccessToken(user_id);
     const refreshToken = generateRefreshToken(user_id);
-    
+
     return res
       .status(200)
       .send(

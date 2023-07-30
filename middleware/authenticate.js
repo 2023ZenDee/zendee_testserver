@@ -21,9 +21,7 @@ exports.authenticateUser = async (req, res, next) => {
       );
   }
 
-  
   try {
-    
     const decoded = jwt.verify(accessToken, secret); // Access Token 검증
 
     // Access Token의 payload에서 사용자 정보를 가져옴
@@ -39,7 +37,7 @@ exports.authenticateUser = async (req, res, next) => {
     // 요청 객체에 사용자 정보를 첨부하여 다음 미들웨어 또는 라우트 핸들러로 이동
     req.user = user;
     //console.log(req.user);
-    
+
     next();
   } catch (err) {
     console.log(err);
@@ -50,7 +48,7 @@ exports.authenticateUser = async (req, res, next) => {
           util.successTrue(statusCode.UNAUTHORIZED, resMessage.TOKEN_EXPRIED)
         );
     }
-    
+
     return res
       .status(401)
       .json(

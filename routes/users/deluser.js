@@ -1,4 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
+const authUtil = require('../../module/authUtil');
+const statusCode = require('../../module/statusCode');
+const responseMessage = require('../../module/responseMessage');
 const prisma = new PrismaClient();
 
 const delUser = async(req, res) =>{
@@ -13,17 +16,16 @@ const delUser = async(req, res) =>{
           });
       
           if (!user) {
-            return res.status(404).send({
-              message: '유저를 찾을 수 없습니다.',
-            });
+            return res.status(200).send(
+              authUtil.successTrue(statusCode.NOT_FOUND, responseMessage.NOT_FOUND_USER)
+            );
           }
       
     
           if (user.userIdx !== userId) {
-            return res.status(403).send({
-              
-              message: '자신의 계정만 삭제할 수 있습니다.',
-            });
+            return res.status(200).send(
+              authUtil.successTrue(statusCode.BAD_REQUEST, responseMessage.ONLY_HOST_DELETED)
+            );
           }
       
           await prisma.user.delete({
@@ -32,14 +34,14 @@ const delUser = async(req, res) =>{
             },
           });
       
-          return res.status(200).send({
-            message: '유저 삭제 성공',
-          });
+          return res.status(200).send(
+            authUtil.successTrue(statusCode.OK, responseMessage.SUCCESS_USER_DELETED)
+          );
     }catch(err){
         console.error(err);
-        return res.status(500).send({
-            message : "게시물 정보 못 읽어옴"
-        })
+        return res.status(500).send(
+          authUtil.successFalse(statusCode.INTERNAL_SERVER_ERROR, responseMessage.FALSE_USER_DELETED)
+        )
     }
 
 }

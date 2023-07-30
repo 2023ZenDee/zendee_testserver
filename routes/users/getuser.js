@@ -1,4 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
+const authUtil = require('../../module/authUtil');
+const statusCode = require('../../module/statusCode');
+const responseMessage = require('../../module/responseMessage');
 const prisma = new PrismaClient();
 
 const getUser = async(req, res) => {
@@ -9,17 +12,14 @@ const getUser = async(req, res) => {
             image : user.image,
             email : user.email,
         }
-        return res.status(200).send({
-            message : '유저 조회 성공',
-            data : {
-                userData
-            }
-        })
+        return res.status(200).send(
+            authUtil.successTrue(statusCode.OK, responseMessage.FALSE_SELECT_USER, userData)
+        )
     }catch(err){
         console.error(err);
-        return res.status(500).send({
-            message : '유저 못읽어옴'
-        })
+        return res.status(500).send(
+            authUtil.successFalse(statusCode.INTERNAL_SERVER_ERROR, responseMessage.FALSE_SELECT_USER)
+        )
     }
 }
 

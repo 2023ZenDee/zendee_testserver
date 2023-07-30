@@ -1,4 +1,7 @@
 const {PrismaClient} = require('@prisma/client');
+const authUtil = require('../../module/authUtil');
+const statusCode = require('../../module/statusCode');
+const responseMessage = require('../../module/responseMessage');
 const prisma = new PrismaClient();
 
 const myIssue = async(req,res) =>{
@@ -14,22 +17,19 @@ const myIssue = async(req,res) =>{
         })
         console.log(findMyIssue);
         if(!findMyIssue){
-            return res.status(200).send({
-                message : "내가 올린 이슈가 없습니다."
-            })
+            return res.status(200).send(
+                authUtil.successTrue(statusCode.NO_CONTENT, responseMessage.EMPTY_MY_ISSUE)
+            )
         }
-        return res.status(200).send({
-            message : "이슈 찾기 성공",
-            data : {
-                findMyIssue
-            }
-        })
+        return res.status(200).send(
+            authUtil.successTrue(statusCode.OK, responseMessage.SUCCESS_GET_MY_ISSUE)
+        )
         
     }catch(err){
         console.error(err);
-        return res.status(500).send({
-            message : "이슈 못 받아옴."
-        })
+        return res.status(500).send(
+            authUtil.successFalse(statusCode.INTERNAL_SERVER_ERROR, responseMessage.FALSE_GET_MY_ISSUE)
+        )
     }
 }
 

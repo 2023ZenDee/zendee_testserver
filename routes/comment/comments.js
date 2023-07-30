@@ -44,7 +44,7 @@ module.exports = {
       const reqIssue = parseInt(req.params.issue);
       const comments = await prisma.comment.findMany({
         where: {
-          posterIdx: reqIssue
+          posterIdx: reqIssue,
         },
       });
       if (comments.length === 0) {
@@ -99,13 +99,12 @@ module.exports = {
           );
       }
 
-      
       const updateCmt = await prisma.comment.update({
         where: {
           cmtIdx: getCmt.cmtIdx,
         },
         data: {
-            cmtContent : fixedcontent
+          cmtContent: fixedcontent,
         },
       });
 
@@ -152,7 +151,6 @@ module.exports = {
       const deleteCmt = await prisma.comment.delete({
         where: {
           cmtIdx: getCmt.cmtIdx,
-          
         },
       });
 

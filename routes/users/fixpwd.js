@@ -1,6 +1,9 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const crypto = require('crypto');
+const authUtil = require('../../module/authUtil');
+const statusCode = require('../../module/statusCode');
+const responseMessage = require('../../module/responseMessage');
 
 const changePwd = async(req,res) => {
     try{
@@ -16,17 +19,16 @@ const changePwd = async(req,res) => {
             }
         })
 
-        return res.status(200).send({
-            message : '비밀번호 변경 성공',
-            changedPwd
-        })
+        return res.status(200).send(
+            authUtil.successTrue(statusCode.OK, responseMessage.SUCCESS_PASSWORD_CHANGED, changedPwd)
+        )
 
         
     }catch(err){
         console.error(err);
-        return res.status(500).send({
-            message : "비밀번호 변경 실패"
-        })
+        return res.status(500).send(
+            authUtil.successFalse(statusCode.INTERNAL_SERVER_ERROR, responseMessage.FALSE_PASSWORD_CHANGED)
+        )
     }
 }
 

@@ -10,8 +10,7 @@ const sendMail = async (req, res) => {
   let emailTemplete;
   ejs.renderFile(
     appDir + "/template/authMail.ejs",
-    { authCode: authNum ,
-    email : email},
+    { authCode: authNum, email: email },
 
     function (err, data) {
       if (err) {
@@ -30,7 +29,7 @@ const sendMail = async (req, res) => {
       pass: process.env.NODEMAILER_PASS,
     },
   });
-  
+
   let mailOptions = await transporter.sendMail({
     from: `Zendee`,
     to: email,
