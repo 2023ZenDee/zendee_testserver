@@ -18,13 +18,17 @@ const userFix = async (req, res) => {
         image,
       },
     });
+    const data = {
+      nick : updateUser.nick,
+      image : updateUser.image,
+    }
     return res
       .status(200)
       .send(
         authUtil.successTrue(
           statusCode.OK,
           responseMessage.SUCCESS_USER_FIX,
-          updateUser
+          data
         )
       );
   } catch (err) {

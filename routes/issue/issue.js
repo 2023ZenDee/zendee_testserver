@@ -52,7 +52,7 @@ const issue = async (req, res) => {
         authUtil.successTrue(
           statusCode.CREATED,
           responseMessage.SUCCESS_CREATED_ISSUE,
-          newPost
+          //newPost
         )
       );
   } catch (err) {

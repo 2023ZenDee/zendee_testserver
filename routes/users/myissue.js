@@ -10,9 +10,7 @@ const myIssue = async(req,res) =>{
 
         const findMyIssue = await prisma.post.findMany({
             where : {
-                author : {
-                    userIdx,
-                }
+                authorIdx : userIdx
             }
         })
         console.log(findMyIssue);
@@ -22,7 +20,7 @@ const myIssue = async(req,res) =>{
             )
         }
         return res.status(200).send(
-            authUtil.successTrue(statusCode.OK, responseMessage.SUCCESS_GET_MY_ISSUE)
+            authUtil.successTrue(statusCode.OK, responseMessage.SUCCESS_GET_MY_ISSUE, findMyIssue)
         )
         
     }catch(err){

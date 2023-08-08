@@ -14,7 +14,6 @@ const generateAccessToken = (user) => {
 
 // Refresh Token 생성 함수
 const generateRefreshToken = (user) => {
-  console.log(user);
   const refreshToken = jwt.sign(
     {
       id: user,

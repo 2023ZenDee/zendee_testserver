@@ -17,6 +17,7 @@ const authUtil = {
   jwtSent: (status, message, accessToken, refreshToken) => {
     return {
       status: status,
+      success : true,
       message: message,
       accessToken: accessToken,
       refreshToken: refreshToken,

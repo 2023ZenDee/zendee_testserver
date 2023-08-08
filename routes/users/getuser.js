@@ -13,7 +13,7 @@ const getUser = async(req, res) => {
             email : user.email,
         }
         return res.status(200).send(
-            authUtil.successTrue(statusCode.OK, responseMessage.FALSE_SELECT_USER, userData)
+            authUtil.successTrue(statusCode.OK, responseMessage.SUCCESS_SELECT_USER, userData)
         )
     }catch(err){
         console.error(err);

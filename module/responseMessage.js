@@ -77,7 +77,6 @@ module.exports = {
   FALSE_PASSWORD_CHANGED: "비밀번호 변경에 실패하였습니다.",
 
   SUCCESS_SELECT_USER: "내 정보 조회 성공하였습니다.",
-  FALSE_SELECT_USER: "내 정보 조회 실패하였습니다.",
 
   NOT_FOUND_USER: "유저 정보를 찾을 수 없습니다.",
   ONLY_HOST_DELETED: "자신의 계정만 삭제할 수 있습니다.",
