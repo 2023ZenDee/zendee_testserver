@@ -95,4 +95,6 @@ module.exports = {
 
   SUCCESS_SORT :"정렬되었습니다.",
   FALSE_SORT : "정렬에 실패하였습니다.",
+
+  UNAUTHORIZED_THIS_USER : "접근 권한이 없습니다.",
 };

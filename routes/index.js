@@ -6,6 +6,7 @@ const commentRouter = require('./comment');
 const reportRouter = require('./report');
 const mailRouter = require('./mail');
 const filterRouter = require('./filter');
+const adminRouter = require('./admin');
 const router = express.Router();
 
 
@@ -16,5 +17,6 @@ router.use('/comments', commentRouter);
 router.use('/report', reportRouter);
 router.use('/mail', mailRouter);
 router.use('/filter', filterRouter);
+router.use('/admin', adminRouter)
 
 module.exports = router;

@@ -13,7 +13,6 @@ const myIssue = async(req,res) =>{
                 authorIdx : userIdx
             }
         })
-        console.log(findMyIssue);
         if(!findMyIssue){
             return res.status(200).send(
                 authUtil.successTrue(statusCode.NO_CONTENT, responseMessage.EMPTY_MY_ISSUE)
