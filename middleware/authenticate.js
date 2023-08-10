@@ -1,12 +1,10 @@
 const jwt = require("jsonwebtoken");
 const { PrismaClient } = require("@prisma/client");
-const { successTrue } = require("../module/authUtil");
 const prisma = new PrismaClient();
 const util = require("../module/authUtil");
 const resMessage = require("../module/responseMessage");
 const statusCode = require("../module/statusCode");
-const authUtil = require("../module/authUtil");
-const responseMessage = require("../module/responseMessage");
+
 
 require("dotenv").config();
 const secret = process.env.SECRET_KEY;

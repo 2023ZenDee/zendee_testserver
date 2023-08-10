@@ -97,4 +97,6 @@ module.exports = {
   FALSE_SORT : "정렬에 실패하였습니다.",
 
   UNAUTHORIZED_THIS_USER : "접근 권한이 없습니다.",
+
+  REPORTED_ISSUE_SUCCESS: "신고된 이슈를 불러왔습니다.",
 };
