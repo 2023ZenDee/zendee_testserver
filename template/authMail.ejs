@@ -1,13 +1,17 @@
 <html>
   <body>
-    <div style="font-size:13px;">
-		회원가입 해주셔서 감사합니다.
-	</div>
-	<div style="font-size:13px;">
-	  해당 메일은 <%= email %>이 정확한 이메일 주소인지 확인하는 메일입니다.
-	</div>
-    <div style="font-size:18px;">
-      인증코드는 [ <%= authCode %> ] 입니다.
+    <div style="font-size: 16px; text-align: center; padding: 20px; background-color: #f5f5f5;">
+      <!--<img src="../../../바탕 화면/zendee 로고.png" alt="프로젝트 로고" style="max-width: 200px;">-->
+      <h2 style="color: #333;">회원가입 감사합니다!</h2>
+    </div>
+    <div style="font-size: 13px; text-align: center; margin: 20px;">
+      해당 메일은 <strong><%= email %></strong> 이 정확한 이메일 주소인지 확인하는 메일입니다.
+    </div>
+    <div style="font-size: 24px; text-align: center; padding: 20px; background-color: #333; color: #fff;">
+      인증코드: <span style="font-size: 28px; font-weight: bold;"><%= authCode %></span>
+    </div>
+    <div style="font-size: 13px; text-align: center; margin-top: 20px;">
+      감사합니다!
     </div>
   </body>
 </html>
