@@ -7,7 +7,7 @@ const statusCode = require("../../module/statusCode");
 const mailCheck = async (req, res) => {
   const { check, userId } = req.body;
   if (check === "true") {
-    const success = await prisma.user.update({
+    await prisma.user.update({
       where: {
         userId,
       },
@@ -21,7 +21,7 @@ const mailCheck = async (req, res) => {
         authUtil.successTrue(
           statusCode.OK,
           responseMessage.SUCCESS_EMAIL_CHECK,
-          success
+        
         )
       );
   } else {

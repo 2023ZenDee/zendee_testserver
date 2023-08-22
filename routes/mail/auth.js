@@ -1,6 +1,9 @@
 const nodemailer = require("nodemailer");
 const ejs = require("ejs");
 const path = require("path");
+const authUtil = require("../../module/authUtil");
+const statusCode = require("../../module/statusCode");
+const responseMessage = require("../../module/responseMessage");
 
 let appDir = path.dirname(require.main.filename);
 
@@ -35,10 +38,13 @@ const sendMail = async (req, res) => {
   });
   transporter.sendMail(mailOptions, function (err, info) {
     if (err) {
-      console.log(err);
+      res.status(200).send(
+        authUtil.successFalse(statusCode.BAD_REQUEST,responseMessage.MAIL_NOT_SENT)
+      )
     }
-    console.log("Finish sending email : ", email);
-    res.send(authNum);
+    res.status(200).send(
+      authUtil.successTrue(statusCode.OK, responseMessage.MAIL_SENT, authNum)
+    )
     transporter.close();
   });
 };

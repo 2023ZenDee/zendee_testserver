@@ -7,7 +7,7 @@ module.exports = {
   LOGIN_FAIL: "유효하지 않은 사용자 아이디 또는 비밀번호가 맞지 않습니다.",
   LOGIN_SERVER_ERROR: "로그인 서버 오류",
 
-  NO_ACCESS_TOKEN: "AccessToken이 없습니다",
+  NO_ACCESS_TOKEN: "AccessToken이 없습니다.",
   TOKEN_EXPRIED: "AccessToken이 만료되었습니다. 다시 로그인 해주십시오.",
   INVALID_ACCESS_TOKEN: "유효하지 않은 Access Token입니다.",
   NO_USER: "유효하지 않은 사용자 입니다.",
@@ -99,4 +99,6 @@ module.exports = {
   UNAUTHORIZED_THIS_USER : "접근 권한이 없습니다.",
 
   REPORTED_ISSUE_SUCCESS: "신고된 이슈를 불러왔습니다.",
+  MAIL_SENT : "인증 이메일을 보냈습니다",
+  MAIL_NOT_SENT : "인증 메일을 보내는데 실패하였습니다.",
 };
