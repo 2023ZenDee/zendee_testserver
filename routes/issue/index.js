@@ -12,6 +12,6 @@ router.get("/mymap", authenticateUser, getIssue);
 router.get("/board/:page", authenticateUser, getBoard);
 
 router.patch("/fix/:issueIdx", authenticateUser, fixedIssue);
-router.delete("/delete/:page", authenticateUser, deleteIssue);
+router.delete("/fire/:page", authenticateUser, deleteIssue);
 
 module.exports = router;

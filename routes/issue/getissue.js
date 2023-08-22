@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 const getIssue = async (req, res) => {
   try {
     const { lat, lng } = req.query;
-
+    
     const filteringIssue = await prisma.post.findMany({
       where: {
         latitude: {

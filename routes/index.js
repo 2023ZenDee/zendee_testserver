@@ -17,6 +17,6 @@ router.use('/comments', commentRouter);
 router.use('/report', reportRouter);
 router.use('/mail', mailRouter);
 router.use('/filter', filterRouter);
-router.use('/admin', adminRouter)
+router.use('/admin', adminRouter);
 
 module.exports = router;

@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 const deleteIssue = async (req, res) => {
   const page = parseInt(req.params.page);
   const userId = req.user.userIdx;
+  
   try {
     const issue = await prisma.post.findUnique({
       where: {
@@ -33,11 +34,23 @@ const deleteIssue = async (req, res) => {
           )
         );
     }
-    await prisma.post.delete({
-      where: {
-        postIdx: page,
-      },
-    });
+    await prisma.$transaction([
+      prisma.comment.deleteMany({
+        where: {
+          posterIdx: page,
+        },
+      }),
+      prisma.tagOnPosts.deleteMany({
+        where : {
+          postIdx : page
+        }
+      }),
+      prisma.post.delete({
+        where: {
+          postIdx: page,
+        },
+      }),
+    ]);
 
     return res
       .status(200)
