@@ -1,9 +1,7 @@
-const express = require('express');
-const { authenticateUser } = require('../../middleware/authenticate');
-const { authenticateAdmin } = require('../../middleware/admin');
-const admin = require('./admin')
+const express = require("express");
+const reportRouter = require('./report');
 const router = express.Router();
 
-router.get('/', authenticateUser, authenticateAdmin ,admin);
+router.use('/reported', reportRouter);
 
 module.exports = router;

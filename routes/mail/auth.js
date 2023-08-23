@@ -1,6 +1,9 @@
 const nodemailer = require("nodemailer");
 const ejs = require("ejs");
 const path = require("path");
+const authUtil = require("../../module/authUtil");
+const statusCode = require("../../module/statusCode");
+const responseMessage = require("../../module/responseMessage");
 
 let appDir = path.dirname(require.main.filename);
 
@@ -11,7 +14,6 @@ const sendMail = async (req, res) => {
   ejs.renderFile(
     appDir + "/template/authMail.ejs",
     { authCode: authNum, email: email },
-
     function (err, data) {
       if (err) {
         console.log(err);
@@ -21,8 +23,6 @@ const sendMail = async (req, res) => {
   );
   let transporter = nodemailer.createTransport({
     service: "Gmail",
-    host: "ljm9894@dgsw.hs.kr",
-    port: 587,
     secure: false,
     auth: {
       user: process.env.NODEMAILER_USER,
@@ -31,17 +31,20 @@ const sendMail = async (req, res) => {
   });
 
   let mailOptions = await transporter.sendMail({
-    from: `Zendee`,
+    from: 'ljm9894@dgsw.hs.kr',
     to: email,
-    subject: "회원가입을 위한 인증번호를 입력해주세요.",
+    subject: `[${authNum}]회원가입을 위한 인증번호를 입력해주세요.`,
     html: emailTemplete,
   });
   transporter.sendMail(mailOptions, function (err, info) {
     if (err) {
-      console.log(err);
+      res.status(200).send(
+        authUtil.successFalse(statusCode.BAD_REQUEST,responseMessage.MAIL_NOT_SENT)
+      )
     }
-    console.log("Finish sending email : ", email);
-    res.send(authNum);
+    res.status(200).send(
+      authUtil.successTrue(statusCode.OK, responseMessage.MAIL_SENT, authNum)
+    )
     transporter.close();
   });
 };

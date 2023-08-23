@@ -23,7 +23,6 @@ const register = async (req, res) => {
         nick: nick,
         email: email,
         password: hashPwd,
-        role : 'ADMIN',
         updated_at: new Date(),
       };
 

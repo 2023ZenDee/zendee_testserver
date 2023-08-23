@@ -10,7 +10,7 @@ module.exports = {
       const reqIssue = parseInt(req.params.issue);
       const { content } = req.body;
       const userId = req.user.userIdx;
-      const writeCmt = await prisma.comment.create({
+      await prisma.comment.create({
         data: {
           cmtContent: content,
           user: { connect: { userIdx: userId } },
@@ -24,7 +24,7 @@ module.exports = {
           authUtil.successTrue(
             statusCode.CREATED,
             responseMessage.COMMENT_CREATED,
-            writeCmt
+           
           )
         );
     } catch (err) {
@@ -148,7 +148,7 @@ module.exports = {
             )
           );
       }
-      const deleteCmt = await prisma.comment.delete({
+    await prisma.comment.delete({
         where: {
           cmtIdx: getCmt.cmtIdx,
         },
@@ -160,7 +160,7 @@ module.exports = {
           authUtil.successTrue(
             statusCode.OK,
             responseMessage.COMMENT_DELETE,
-            deleteCmt
+           
           )
         );
     } catch (err) {
