@@ -3,7 +3,7 @@ const authUtil = require("../../../module/authUtil");
 const statusCode = require("../../../module/statusCode");
 const adminMessage = require("../../../module/adminMessage");
 const prisma = new PrismaClient();
-const admin = async (req, res) => {
+const getReportedIssue = async (req, res) => {
   try {
     const reportedIssue = await prisma.postreporter.findMany();
     return res
@@ -28,4 +28,4 @@ const admin = async (req, res) => {
   }
 };
 
-module.exports = admin;
+module.exports = getReportedIssue;
