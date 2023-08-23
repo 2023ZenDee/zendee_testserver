@@ -78,7 +78,7 @@ module.exports = {
 
   SUCCESS_SELECT_USER: "내 정보 조회 성공하였습니다.",
 
-  NOT_FOUND_USER: "유저 정보를 찾을 수 없습니다.",
+  NOT_FOUND_USER: "존재하지 않는 유저 입니다.",
   ONLY_HOST_DELETED: "자신의 계정만 삭제할 수 있습니다.",
   SUCCESS_USER_DELETED: "계정이 탈퇴되었습니다.",
   FALSE_USER_DELETED: "계정 탈퇴에 실패하였습니다.",
@@ -98,7 +98,10 @@ module.exports = {
 
   UNAUTHORIZED_THIS_USER : "접근 권한이 없습니다.",
 
-  REPORTED_ISSUE_SUCCESS: "신고된 이슈를 불러왔습니다.",
+  
   MAIL_SENT : "인증 이메일을 보냈습니다",
   MAIL_NOT_SENT : "인증 메일을 보내는데 실패하였습니다.",
+
+  USER_REPORTED_SUCCESS : "신고 완료되었습니다.",
+  USER_REPORTED_FALSE : "신고 오류"
 };

@@ -36,6 +36,16 @@ model commentreporter {
   @@index([authorIdx], map: "CommentReporter_authorIdx_fkey")
 }
 
+model userreporter {
+  userReportIdx Int @id @default(autoincrement())
+  userReportContent String
+  userReported_at  DateTime @default(now())
+  sender Int
+  receiver Int
+  user user @relation("ReportsSent", fields: [sender], references: [userIdx])
+  report user @relation("ReportsReceived", fields: [receiver], references: [userIdx])  
+}
+
 model likes {
   likeIdx   Int      @id @default(autoincrement())
   likesBad  Boolean?
@@ -106,6 +116,9 @@ model user {
   post            post[]
   postreporter    postreporter[]
   socialLogin socialLogin[]
+  reportsSent userreporter[] @relation("ReportsSent")
+  reportsReceived userreporter[] @relation("ReportsReceived")
+
 }
 model TagOnPosts {
   post        post    @relation(fields: [postIdx], references: [postIdx])
