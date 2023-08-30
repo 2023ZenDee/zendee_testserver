@@ -7,6 +7,7 @@ const reportRouter = require('./report');
 const mailRouter = require('./mail');
 const filterRouter = require('./filter');
 const adminRouter = require('./admin');
+const oauthRouter = require('./users/oauth')
 const router = express.Router();
 
 
@@ -18,5 +19,6 @@ router.use('/report', reportRouter);
 router.use('/mail', mailRouter);
 router.use('/filter', filterRouter);
 router.use('/admin', adminRouter);
+router.use('/oauth', oauthRouter);
 
 module.exports = router;

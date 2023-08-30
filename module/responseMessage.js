@@ -103,5 +103,7 @@ module.exports = {
   MAIL_NOT_SENT : "인증 메일을 보내는데 실패하였습니다.",
 
   USER_REPORTED_SUCCESS : "신고 완료되었습니다.",
-  USER_REPORTED_FALSE : "신고 오류"
+  USER_REPORTED_FALSE : "신고 오류",
+
+  ACCESS_TOKEN : "AccessToken이 발급되었습니다.",
 };

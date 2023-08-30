@@ -115,7 +115,6 @@ model user {
   likes           likes[]
   post            post[]
   postreporter    postreporter[]
-  socialLogin socialLogin[]
   reportsSent userreporter[] @relation("ReportsSent")
   reportsReceived userreporter[] @relation("ReportsReceived")
 
@@ -129,13 +128,6 @@ model TagOnPosts {
   @@id([postIdx, tagIdx])
 }
 
-model socialLogin{
-  socialIdx Int @id @default(autoincrement())
-  type String 
-  userIdx Int
-  user user @relation(fields: [userIdx], references: [userIdx])
-
-}
 
 enum user_role {
   USER

@@ -24,7 +24,7 @@ const getIssue = async (req, res) => {
       },
     });
     //현지 위치에서 2km 반경 이내에 게시물 필터링
-    if (!filteringIssue) {
+    if (!filteringIssue[0]) {
       return res
         .status(200)
         .send(
@@ -34,7 +34,7 @@ const getIssue = async (req, res) => {
           )
         );
     }
-    res
+    return res
       .status(200)
       .send(
         authUtil.successTrue(

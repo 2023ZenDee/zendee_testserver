@@ -7,7 +7,7 @@ const getBoard = require("./getboard");
 const deleteIssue = require("./delissue");
 const fixedIssue = require("./fixissue");
 
-router.post("/", authenticateUser, issues);
+router.post("/", authenticateUser,issues);
 router.get("/mymap", authenticateUser, getIssue);
 router.get("/board/:page", authenticateUser, getBoard);
 

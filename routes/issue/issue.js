@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 const issue = async (req, res) => {
   const { title, content, postImg, lat, lng, tag } = req.body;
-  const userId = req.user.userId;
+  const userId = req.user.userIdx;
 
   const validTags = ["위험", "안내", "속보"];
   if (!validTags.includes(tag)) {
@@ -28,7 +28,7 @@ const issue = async (req, res) => {
         postImg,
         longitude: parseFloat(lng),
         latitude: parseFloat(lat),
-        user: { connect: { userId: userId } },
+        user: { connect: { userIdx: userId } },
         deleted_at: new Date(Date.now() + 72 * 60 * 60 * 1000),
         updated_at: new Date(),
         tags: {
