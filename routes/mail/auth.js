@@ -4,6 +4,8 @@ const path = require("path");
 const authUtil = require("../../module/authUtil");
 const statusCode = require("../../module/statusCode");
 const responseMessage = require("../../module/responseMessage");
+const { generateMailToken } = require("../../util/jwt");
+const mailCheck = require("./mailCheck");
 
 let appDir = path.dirname(require.main.filename);
 
@@ -36,6 +38,7 @@ const sendMail = async (req, res) => {
     subject: `[${authNum}]회원가입을 위한 인증번호를 입력해주세요.`,
     html: emailTemplete,
   });
+  const mailToken = generateMailToken(email);
   transporter.sendMail(mailOptions, function (err, info) {
     if (err) {
       res.status(200).send(
@@ -43,7 +46,7 @@ const sendMail = async (req, res) => {
       )
     }
     res.status(200).send(
-      authUtil.successTrue(statusCode.OK, responseMessage.MAIL_SENT, authNum)
+      authUtil.successTrue(statusCode.OK, responseMessage.MAIL_SENT, mailToken)
     )
     transporter.close();
   });

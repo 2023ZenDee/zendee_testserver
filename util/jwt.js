@@ -24,7 +24,22 @@ const generateRefreshToken = (user) => {
   return refreshToken;
 };
 
+
+const generateMailToken = (email) =>{
+  const mailToken = jwt.sign(
+    {
+      id : email,
+    },
+    secret,
+    {
+      expiresIn : "5m"
+    }
+  );
+  return mailToken
+}
+
 module.exports = {
   generateAccessToken,
   generateRefreshToken,
+  generateMailToken
 };

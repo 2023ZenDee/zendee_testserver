@@ -19,6 +19,11 @@ const login = async (req, res) => {
         .status(200)
         .send(util.successTrue(statusCode.BAD_REQUEST, resMessage.LOGIN_FAIL));
     }
+    if(user.email_check == 0) {
+      return res
+        .status(401)
+        .send(util.successTrue(statusCode.UNAUTHORIZED, resMessage.NO_ACCESS_RIGHT));
+    }
 
     const accessToken = generateAccessToken(user_id);
     const refreshToken = generateRefreshToken(user_id);

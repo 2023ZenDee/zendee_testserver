@@ -5,25 +5,35 @@ const responseMessage = require("../../module/responseMessage");
 const statusCode = require("../../module/statusCode");
 
 const mailCheck = async (req, res) => {
-  const { check, userId } = req.body;
+  const { check } = req.body;
   if (check === "true") {
-    await prisma.user.update({
-      where: {
-        userId,
-      },
-      data: {
-        email_check: true,
-      },
-    });
-    return res
-      .status(200)
-      .send(
-        authUtil.successTrue(
-          statusCode.OK,
-          responseMessage.SUCCESS_EMAIL_CHECK,
-        
+    try{
+      await prisma.user.update({
+        where: {
+          email : req.email,
+        },
+        data: {
+          email_check: true,
+        },
+      });
+      return res
+        .status(200)
+        .send(
+          authUtil.successTrue(
+            statusCode.OK,
+            responseMessage.SUCCESS_EMAIL_CHECK,
+            
+          )
+        );
+    }catch(err){
+      return res.status(500).send(
+        authUtil.successFalse(
+          statusCode.INTERNAL_SERVER_ERROR,
+          responseMessage.EMAIL_AUTH_FALSE
         )
-      );
+      )
+    }
+    
   } else {
     return res
       .status(200)
@@ -35,5 +45,4 @@ const mailCheck = async (req, res) => {
       );
   }
 };
-
-module.exports = mailCheck;
+module.exports = mailCheck

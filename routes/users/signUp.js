@@ -14,6 +14,7 @@ const register = async (req, res) => {
     const ifUser = await prisma.user.findUnique({
       where: {
         userId: user_id,
+        email : email
       },
     });
 

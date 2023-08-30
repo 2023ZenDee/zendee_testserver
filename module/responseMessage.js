@@ -106,4 +106,11 @@ module.exports = {
   USER_REPORTED_FALSE : "신고 오류",
 
   ACCESS_TOKEN : "AccessToken이 발급되었습니다.",
+
+  NO_ACCESS_RIGHT : "인증이 되지 않은 사용자 입니다.",
+  NO_MAILTOKEN : "메일 인증 토큰이 없습니다.",
+  MAIL_TOKEN_EXPRIED: "MailToken이 만료되었습니다. 다시 로그인 해주십시오.",
+  INVALID_MAIL_TOKEN: "유효하지 않은 MailToken입니다.",
+
+  EMAIL_AUTH_FALSE : "이메일 인증 실패"
 };

@@ -105,7 +105,7 @@ model user {
   nick            String            @unique(map: "User_nick_key")
   password        String
   image           String            @default("null")
-  email           String
+  email           String            @unique
   email_check     Boolean           @default(false)
   role            user_role         @default(USER)
   created_at      DateTime          @default(now())
