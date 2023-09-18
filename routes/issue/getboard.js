@@ -2,6 +2,8 @@ const { PrismaClient } = require("@prisma/client");
 const authUtil = require("../../module/authUtil");
 const statusCode = require("../../module/statusCode");
 const responseMessage = require("../../module/responseMessage");
+const { resPost } = require("../../util/response/post");
+const { createDiffieHellmanGroup } = require("crypto");
 const prisma = new PrismaClient();
 
 const getBoard = async (req, res) => {
@@ -13,7 +15,6 @@ const getBoard = async (req, res) => {
         postIdx: page,
       },
     });
-
     if (!board) {
       return res
         .status(200)
@@ -24,7 +25,7 @@ const getBoard = async (req, res) => {
           )
         );
     }
-    if (board.deleted_at > nowDate) {
+    if (board.deleted_at < nowDate) {
       return res
         .status(200)
         .send(
@@ -34,21 +35,15 @@ const getBoard = async (req, res) => {
           )
         );
     }
-    const views = await prisma.post.update({
-      where: {
-        postIdx: page,
-      },
-      data: {
-        views: board.views + 1,
-      },
-    });
+
+    const post = await resPost(board);
     return res
       .status(200)
       .json(
         authUtil.successTrue(
           statusCode.OK,
           responseMessage.SUCCESS_FOUND_ISSUE,
-          views
+          post
         )
       );
   } catch (err) {

@@ -7,9 +7,9 @@ const { generateAccessToken, generateRefreshToken } = require("../../util/jwt");
 const prisma = new PrismaClient();
 const login = async (req, res) => {
   try {
-    const { user_id, password } = req.body;
-
-    const user = await prisma.user.findUnique({ where: { userId: user_id } });
+    const { userId, password } = req.body;
+    
+    const user = await prisma.user.findUnique({ where: { userId } });
     const hashedLoginPassword = crypto
       .createHash("sha512")
       .update(password)
@@ -19,14 +19,16 @@ const login = async (req, res) => {
         .status(200)
         .send(util.successTrue(statusCode.BAD_REQUEST, resMessage.LOGIN_FAIL));
     }
-    if(user.email_check == 0) {
-      return res
-        .status(401)
-        .send(util.successTrue(statusCode.UNAUTHORIZED, resMessage.NO_ACCESS_RIGHT));
-    }
+    // if (user.email_check == 0) {
+    //   return res
+    //     .status(401)
+    //     .send(
+    //       util.successTrue(statusCode.UNAUTHORIZED, resMessage.NO_ACCESS_RIGHT)
+    //     );
+    // }
 
-    const accessToken = generateAccessToken(user_id);
-    const refreshToken = generateRefreshToken(user_id);
+    const accessToken = generateAccessToken(userId);
+    const refreshToken = generateRefreshToken(userId);
 
     return res
       .status(200)

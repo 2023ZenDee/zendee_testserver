@@ -9,4 +9,6 @@ router.post('/issue/:idx', authenticateUser,issueReport);
 router.post('/comment/:idx', authenticateUser,commentReport);
 router.post('/user/:idx', authenticateUser,userReport );
 
+
+
 module.exports = router;

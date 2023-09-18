@@ -25,10 +25,11 @@ const generateRefreshToken = (user) => {
 };
 
 
-const generateMailToken = (email) =>{
+const generateMailToken = (email, num) =>{
   const mailToken = jwt.sign(
     {
       id : email,
+      authNum : num
     },
     secret,
     {

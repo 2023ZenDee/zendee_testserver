@@ -38,7 +38,7 @@ const sendMail = async (req, res) => {
     subject: `[${authNum}]회원가입을 위한 인증번호를 입력해주세요.`,
     html: emailTemplete,
   });
-  const mailToken = generateMailToken(email);
+  const mailToken = generateMailToken(email, authNum);
   transporter.sendMail(mailOptions, function (err, info) {
     if (err) {
       res.status(200).send(

@@ -5,8 +5,8 @@ const responseMessage = require("../../module/responseMessage");
 const statusCode = require("../../module/statusCode");
 
 const mailCheck = async (req, res) => {
-  const { check } = req.body;
-  if (check === "true") {
+  const { code } = req.body;
+  if (code === req.authNum) {
     try{
       await prisma.user.update({
         where: {
@@ -26,6 +26,7 @@ const mailCheck = async (req, res) => {
           )
         );
     }catch(err){
+      console.log(err)
       return res.status(500).send(
         authUtil.successFalse(
           statusCode.INTERNAL_SERVER_ERROR,

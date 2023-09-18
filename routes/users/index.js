@@ -4,13 +4,14 @@ const register = require("./signUp");
 const refreshToken = require("./refreshToken");
 const logout = require("./logout");
 const { authenticateUser } = require("../../middleware/authenticate");
-const getUser = require("./getUser");
+const getUser = require("./getuser");
 const delUser = require("./deluser");
 const userFix = require("./userFix");
 const myIssue = require("./myissue");
 const changePwd = require("./fixpwd");
 const myCmts = require("./comment");
 const userLikes = require("./userLikes");
+const {upload} = require('../../middleware/multer')
 
 const router = express.Router();
 
@@ -25,7 +26,7 @@ router.get("/comments", authenticateUser, myCmts); //내가 작성한 댓글
 router.get("/likes", authenticateUser, userLikes.userLikes); // 내가 좋아요 누른 이슈
 router.get("/bads", authenticateUser, userLikes.userBads); //내가 싫어요 누른 이슈
 
-router.patch("/userFix", authenticateUser, userFix); //유저 정보 수정
+router.patch("/userFix", authenticateUser,upload.single('img'),userFix); //유저 정보 수정
 router.patch("/fixpwd", authenticateUser, changePwd); //비밀번호 수정
 
 router.delete("/fire", authenticateUser, delUser); //회원 탈퇴

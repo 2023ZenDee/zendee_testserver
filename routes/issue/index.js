@@ -6,10 +6,13 @@ const getIssue = require("./getissue");
 const getBoard = require("./getboard");
 const deleteIssue = require("./delissue");
 const fixedIssue = require("./fixissue");
+const { upload } = require("../../middleware/multer");
 
-router.post("/", authenticateUser,issues);
+
+router.post("/", authenticateUser, upload.single('img') ,issues);
 router.get("/mymap", authenticateUser, getIssue);
 router.get("/board/:page", authenticateUser, getBoard);
+
 
 router.patch("/fix/:issueIdx", authenticateUser, fixedIssue);
 router.delete("/fire/:page", authenticateUser, deleteIssue);

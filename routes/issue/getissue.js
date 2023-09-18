@@ -2,12 +2,13 @@ const { PrismaClient } = require("@prisma/client");
 const authUtil = require("../../module/authUtil");
 const statusCode = require("../../module/statusCode");
 const responseMessage = require("../../module/responseMessage");
+const { resPost } = require("../../util/response/post");
 const prisma = new PrismaClient();
 
 const getIssue = async (req, res) => {
   try {
     const { lat, lng } = req.query;
-    
+
     const filteringIssue = await prisma.post.findMany({
       where: {
         latitude: {
@@ -34,13 +35,20 @@ const getIssue = async (req, res) => {
           )
         );
     }
+    const issues = await Promise.all(
+      filteringIssue.map(async (post) => {
+        const result = await resPost(post);
+        return result;
+      })
+    );
+
     return res
       .status(200)
       .send(
         authUtil.successTrue(
           statusCode.OK,
           responseMessage.SUCCESS_FOUND_ISSUE,
-          filteringIssue
+          issues
         )
       );
   } catch (err) {

@@ -11,10 +11,9 @@ require("dotenv").config();
 const secret = process.env.SECRET_KEY;
 exports.authenticateUser = async (req, res, next) => {
   const accessToken = req.headers.accesstoken; // 쿠키에서 Access Token을 가져옴
-
   if (!accessToken) {
     return res
-      .status(200)
+      .status(400)
       .send(
         util.successTrue(statusCode.UNAUTHORIZED, resMessage.NO_ACCESS_TOKEN)
       );
@@ -72,6 +71,7 @@ exports.mailAuthenticateUser = (req,res,next) =>{
   try{
     const decoded = jwt.verify(mailToken, secret)
     req.email = decoded.id;
+    req.authNum = decoded.authNum;
     next();
   }catch(err){
     console.log(err)
