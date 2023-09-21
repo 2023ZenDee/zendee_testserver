@@ -7,11 +7,11 @@ const prisma = new PrismaClient();
 
 const issue = async (req, res) => {
   const { title, content, lat, lng, tag, deleted_at } = req.body;
-  const currentTime = new Date()
-  currentTime.setMinutes(currentTime.getMinutes() + parseInt(deleted_at))
-  currentTime.setHours(currentTime.getHours() + 9) 
-  const expired_at = currentTime
-  console.log(expired_at)
+  const currentTime = new Date();
+  let img;
+  currentTime.setMinutes(currentTime.getMinutes() + parseInt(deleted_at));
+  currentTime.setHours(currentTime.getHours() + 9);
+  const expired_at = currentTime;
   const validTags = ["경고", "뜨거움", "재미", "행운", "공지", "활동", "사랑"];
   if (!validTags.includes(tag)) {
     return res
@@ -25,10 +25,13 @@ const issue = async (req, res) => {
   }
 
   try {
-    const img = `img/${req.file.filename}`;
+    if (!req.file) {
+      img = null;
+    } else {
+      img = `img/${req.file.filename}`;
+    }
     const address = await getAddress(lat, lng);
-    console.log(address)
-    if(!address){
+    if (!address) {
       return res
         .status(400)
         .send(

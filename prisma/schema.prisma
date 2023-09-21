@@ -68,7 +68,7 @@ model post {
   longitude       Float
   deleted_at      DateTime
   authorIdx       Int
-  postImg         String
+  postImg         String?
   address String?
   views    Int     @default(0) // 조회수 필드
   
