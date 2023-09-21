@@ -9,6 +9,11 @@
     "start": "nodemon"
   },
   "author": "",
+  "nodemonConfig" : {
+    "ignore" : [
+      "data/*"
+    ]
+  },
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^4.15.0",
