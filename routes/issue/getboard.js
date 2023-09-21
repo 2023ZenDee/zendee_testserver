@@ -8,7 +8,8 @@ const prisma = new PrismaClient();
 
 const getBoard = async (req, res) => {
   const page = parseInt(req.params.page);
-  let nowDate = new Date();
+  const currentTime = new Date();
+  currentTime.setHours(currentTime.getHours() + 9); 
   try {
     const board = await prisma.post.findUnique({
       where: {
@@ -25,7 +26,7 @@ const getBoard = async (req, res) => {
           )
         );
     }
-    if (board.deleted_at < nowDate) {
+    if (board.deleted_at < currentTime) {
       return res
         .status(200)
         .send(

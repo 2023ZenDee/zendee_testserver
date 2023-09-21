@@ -116,6 +116,8 @@ module.exports = {
 
   EMAIL_AUTH_FALSE : "이메일 인증 실패",
 
-  ADDRESS_GET_FALSE : "주소 GET 실패",
-
+  ADDRESS_GET_FALSE : "주소를 찾을 수 없습니다.",
+  SERVER_ERROR : "서버 에러"
+  
+  
 };

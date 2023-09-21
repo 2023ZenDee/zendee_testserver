@@ -8,6 +8,8 @@ const prisma = new PrismaClient();
 const getIssue = async (req, res) => {
   try {
     const { lat, lng } = req.query;
+    const currentTime = new Date();
+    currentTime.setHours(currentTime.getHours() + 9); 
 
     const filteringIssue = await prisma.post.findMany({
       where: {
@@ -20,7 +22,9 @@ const getIssue = async (req, res) => {
           lte: parseFloat(lng) + 0.02,
         },
         deleted_at: {
-          not: new Date(),
+          not: {
+            lte : currentTime
+          }
         },
       },
     });

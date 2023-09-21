@@ -6,8 +6,12 @@ const { getAddress } = require("../../util/response/address");
 const prisma = new PrismaClient();
 
 const issue = async (req, res) => {
-  const { title, content, lat, lng, tag , deleted_at} = req.body;
-  const expired_at = new Date(deleted_at);
+  const { title, content, lat, lng, tag, deleted_at } = req.body;
+  const currentTime = new Date()
+  currentTime.setMinutes(currentTime.getMinutes() + parseInt(deleted_at))
+  currentTime.setHours(currentTime.getHours() + 9) 
+  const expired_at = currentTime
+  console.log(expired_at)
   const validTags = ["경고", "뜨거움", "재미", "행운", "공지", "활동", "사랑"];
   if (!validTags.includes(tag)) {
     return res
@@ -22,7 +26,18 @@ const issue = async (req, res) => {
 
   try {
     const img = `img/${req.file.filename}`;
-    const address = await getAddress(lat,lng) ;
+    const address = await getAddress(lat, lng);
+    console.log(address)
+    if(!address){
+      return res
+        .status(400)
+        .send(
+          authUtil.successTrue(
+            statusCode.BAD_REQUEST,
+            responseMessage.ADDRESS_GET_FALSE
+          )
+        );
+    }
     await prisma.post.create({
       data: {
         title,
@@ -30,7 +45,7 @@ const issue = async (req, res) => {
         postImg: img,
         longitude: parseFloat(lng),
         latitude: parseFloat(lat),
-        address : address,
+        address: address,
         user: { connect: { userIdx: req.user.userIdx } },
         deleted_at: expired_at,
         updated_at: new Date(),

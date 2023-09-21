@@ -3,12 +3,15 @@ const crypto = require("crypto");
 const util = require("../../module/authUtil");
 const resMessage = require("../../module/responseMessage");
 const statusCode = require("../../module/statusCode");
-const { generateAccessToken, generateRefreshToken } = require("../../util/jwt");
+const {
+  generateAccessToken,
+  generateRefreshToken,
+} = require("../../util/token/jwt");
 const prisma = new PrismaClient();
 const login = async (req, res) => {
   try {
     const { userId, password } = req.body;
-    
+
     const user = await prisma.user.findUnique({ where: { userId } });
     const hashedLoginPassword = crypto
       .createHash("sha512")

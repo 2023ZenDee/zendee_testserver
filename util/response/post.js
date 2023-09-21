@@ -1,6 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const { getAddress } = require("./address");
 const { likesCount, badsCount, commentsCount } = require("./count");
+const { commentAuthor } = require("./comment");
 const prisma = new PrismaClient();
 module.exports = {
   resPost: async (board) => {
@@ -37,5 +38,28 @@ module.exports = {
     views.bads = badCount;
     views.comments = cmtCount;
     return views;
+  },
+  manyPost: async (sortedPost) => {
+    const result = await Promise.all(
+      sortedPost.map(async (post) => {
+        const author = await commentAuthor(post.comment.cmtIdx);
+        const tag = await prisma.tag.findUnique({
+          where: {
+            tagIdx: post.tags[0].tagIdx,
+          },
+        });
+        const user = await prisma.user.findUnique({
+          where: {
+            userIdx: post.authorIdx,
+          },
+        });
+
+        post.comment = author;
+        post.tags = tag.tagName;
+        post.user = user.nick;
+        return post;
+      })
+    );
+    return result;
   },
 };

@@ -1,5 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
-const { generateAccessToken } = require("../../util/jwt");
+const { generateAccessToken } = require("../../util/token/jwt");
 const prisma = new PrismaClient();
 const jwt = require("jsonwebtoken");
 const authUtil = require("../../module/authUtil");
@@ -38,9 +38,15 @@ const refreshToken = async (req, res) => {
     // 새로운 Access Token 생성
     const accessToken = generateAccessToken(user);
 
-    res.status(200).send(
-      authUtil.successTrue(statusCode.OK, responseMessage.ACCESS_TOKEN, accessToken)
-    );
+    res
+      .status(200)
+      .send(
+        authUtil.successTrue(
+          statusCode.OK,
+          responseMessage.ACCESS_TOKEN,
+          accessToken
+        )
+      );
   } catch (err) {
     if (err.name === "TokenExpiredError") {
       return res

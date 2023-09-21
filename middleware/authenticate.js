@@ -61,7 +61,6 @@ exports.authenticateUser = async (req, res, next) => {
 
 exports.mailAuthenticateUser = (req,res,next) =>{
   const mailToken = req.headers['mailtoken'];
-
   if(!mailToken){
     return res.status(401).send(
       util.successTrue(statusCode.UNAUTHORIZED, responseMessage.NO_MAILTOKEN)

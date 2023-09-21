@@ -5,9 +5,22 @@ const responseMessage = require("../../module/responseMessage");
 const statusCode = require("../../module/statusCode");
 
 const mailCheck = async (req, res) => {
+  
   const { code } = req.body;
+  
   if (code === req.authNum) {
     try{
+      const user = prisma.user.findUnique({
+        where : {
+          email : req.email
+        }
+      })
+      console.log(user)
+      if(!user){
+        return res.status(400).send(
+          authUtil.successTrue(statusCode.BAD_REQUEST, responseMessage.NOT_FOUND_USER)
+        )
+      }
       await prisma.user.update({
         where: {
           email : req.email,

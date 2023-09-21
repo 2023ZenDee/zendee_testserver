@@ -1,7 +1,10 @@
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
-const {generateAccessToken , generateRefreshToken} = require('../../util/jwt')
+const {
+  generateAccessToken,
+  generateRefreshToken,
+} = require("../../util/token/jwt");
 const crypto = require("crypto");
 const resMessage = require("../../module/responseMessage");
 const util = require("../../module/authUtil");
@@ -19,11 +22,11 @@ const register = async (req, res) => {
       },
     });
     const cloneEmail = await prisma.user.findUnique({
-      where : {
-        email
-      }
-    })
-    
+      where: {
+        email,
+      },
+    });
+
     if (ifUser === null && cloneEmail === null) {
       const user = {
         userId: userId,
@@ -42,17 +45,35 @@ const register = async (req, res) => {
 
       return res
         .status(200)
-        .send(util.jwtSent(status.CREATED, resMessage.SIGNUP_SUCCESS,accessToken, refreshToken));
-    } else if(ifUser !== null && cloneEmail === null){
+        .send(
+          util.jwtSent(
+            status.CREATED,
+            resMessage.SIGNUP_SUCCESS,
+            accessToken,
+            refreshToken
+          )
+        );
+    } else if (ifUser !== null && cloneEmail === null) {
       return res
         .status(200)
-        .send(util.successTrue(status.BAD_REQUEST, resMessage.DUPLICATION_USERID));
-    } else if(ifUser === null && cloneEmail !== null){
+        .send(
+          util.successFalse(status.BAD_REQUEST, resMessage.DUPLICATION_USERID)
+        );
+    } else if (ifUser === null && cloneEmail !== null) {
       return res
         .status(200)
-        .send(util.successTrue(status.BAD_REQUEST, resMessage.DUPLICATION_EMAIL));
-    }else{
-      return res.status(200).send(util.successTrue(statusCode.BAD_REQUEST, responseMessage.EMAIL_USERID_DUPLICATION));
+        .send(
+          util.successFalse(status.BAD_REQUEST, resMessage.DUPLICATION_EMAIL)
+        );
+    } else {
+      return res
+        .status(200)
+        .send(
+          util.successFalse(
+            statusCode.BAD_REQUEST,
+            responseMessage.EMAIL_USERID_DUPLICATION
+          )
+        );
     }
   } catch (err) {
     console.log(err);
