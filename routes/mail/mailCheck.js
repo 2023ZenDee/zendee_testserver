@@ -5,25 +5,49 @@ const responseMessage = require("../../module/responseMessage");
 const statusCode = require("../../module/statusCode");
 
 const mailCheck = async (req, res) => {
-  const { check, userId } = req.body;
-  if (check === "true") {
-    await prisma.user.update({
-      where: {
-        userId,
-      },
-      data: {
-        email_check: true,
-      },
-    });
-    return res
-      .status(200)
-      .send(
-        authUtil.successTrue(
-          statusCode.OK,
-          responseMessage.SUCCESS_EMAIL_CHECK,
-        
+  
+  const { code } = req.body;
+  
+  if (code === req.authNum) {
+    try{
+      const user = prisma.user.findUnique({
+        where : {
+          email : req.email
+        }
+      })
+      console.log(user)
+      if(!user){
+        return res.status(400).send(
+          authUtil.successTrue(statusCode.BAD_REQUEST, responseMessage.NOT_FOUND_USER)
         )
-      );
+      }
+      await prisma.user.update({
+        where: {
+          email : req.email,
+        },
+        data: {
+          email_check: true,
+        },
+      });
+      return res
+        .status(200)
+        .send(
+          authUtil.successTrue(
+            statusCode.OK,
+            responseMessage.SUCCESS_EMAIL_CHECK,
+            
+          )
+        );
+    }catch(err){
+      console.log(err)
+      return res.status(500).send(
+        authUtil.successFalse(
+          statusCode.INTERNAL_SERVER_ERROR,
+          responseMessage.EMAIL_AUTH_FALSE
+        )
+      )
+    }
+    
   } else {
     return res
       .status(200)
@@ -35,5 +59,4 @@ const mailCheck = async (req, res) => {
       );
   }
 };
-
-module.exports = mailCheck;
+module.exports = mailCheck

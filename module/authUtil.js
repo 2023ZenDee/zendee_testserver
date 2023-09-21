@@ -23,6 +23,16 @@ const authUtil = {
       refreshToken: refreshToken,
     };
   },
+  mailCheckRes: (status, message, authNum, mailToken) => {
+    return {
+      status: status,
+      success : true,
+      message: message,
+      authNum: authNum,
+      mailToken: mailToken,
+    };
+  },
+
 };
 
 module.exports = authUtil;

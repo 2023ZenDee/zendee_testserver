@@ -2,12 +2,15 @@ const { PrismaClient } = require("@prisma/client");
 const authUtil = require("../../module/authUtil");
 const statusCode = require("../../module/statusCode");
 const responseMessage = require("../../module/responseMessage");
+const { resPost } = require("../../util/response/post");
 const prisma = new PrismaClient();
 
 const getIssue = async (req, res) => {
   try {
     const { lat, lng } = req.query;
-    
+    const currentTime = new Date();
+    currentTime.setHours(currentTime.getHours() + 9); 
+
     const filteringIssue = await prisma.post.findMany({
       where: {
         latitude: {
@@ -19,12 +22,14 @@ const getIssue = async (req, res) => {
           lte: parseFloat(lng) + 0.02,
         },
         deleted_at: {
-          not: new Date(),
+          not: {
+            lte : currentTime
+          }
         },
       },
     });
     //현지 위치에서 2km 반경 이내에 게시물 필터링
-    if (!filteringIssue) {
+    if (!filteringIssue[0]) {
       return res
         .status(200)
         .send(
@@ -34,13 +39,20 @@ const getIssue = async (req, res) => {
           )
         );
     }
-    res
+    const issues = await Promise.all(
+      filteringIssue.map(async (post) => {
+        const result = await resPost(post);
+        return result;
+      })
+    );
+
+    return res
       .status(200)
       .send(
         authUtil.successTrue(
           statusCode.OK,
           responseMessage.SUCCESS_FOUND_ISSUE,
-          filteringIssue
+          issues
         )
       );
   } catch (err) {

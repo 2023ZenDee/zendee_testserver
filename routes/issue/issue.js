@@ -2,13 +2,17 @@ const { PrismaClient } = require("@prisma/client");
 const authUtil = require("../../module/authUtil");
 const statusCode = require("../../module/statusCode");
 const responseMessage = require("../../module/responseMessage");
+const { getAddress } = require("../../util/response/address");
 const prisma = new PrismaClient();
 
 const issue = async (req, res) => {
-  const { title, content, postImg, lat, lng, tag } = req.body;
-  const userId = req.user.userId;
-
-  const validTags = ["위험", "안내", "속보"];
+  const { title, content, lat, lng, tag, deleted_at } = req.body;
+  const currentTime = new Date()
+  currentTime.setMinutes(currentTime.getMinutes() + parseInt(deleted_at))
+  currentTime.setHours(currentTime.getHours() + 9) 
+  const expired_at = currentTime
+  console.log(expired_at)
+  const validTags = ["경고", "뜨거움", "재미", "행운", "공지", "활동", "사랑"];
   if (!validTags.includes(tag)) {
     return res
       .status(200)
@@ -21,15 +25,29 @@ const issue = async (req, res) => {
   }
 
   try {
-    const newPost = await prisma.post.create({
+    const img = `img/${req.file.filename}`;
+    const address = await getAddress(lat, lng);
+    console.log(address)
+    if(!address){
+      return res
+        .status(400)
+        .send(
+          authUtil.successTrue(
+            statusCode.BAD_REQUEST,
+            responseMessage.ADDRESS_GET_FALSE
+          )
+        );
+    }
+    await prisma.post.create({
       data: {
         title,
         content,
-        postImg,
+        postImg: img,
         longitude: parseFloat(lng),
         latitude: parseFloat(lat),
-        user: { connect: { userId: userId } },
-        deleted_at: new Date(Date.now() + 72 * 60 * 60 * 1000),
+        address: address,
+        user: { connect: { userIdx: req.user.userIdx } },
+        deleted_at: expired_at,
         updated_at: new Date(),
         tags: {
           create: {
@@ -46,15 +64,13 @@ const issue = async (req, res) => {
       },
     });
 
-    return res
-      .status(200)
-      .send(
-        authUtil.successTrue(
-          statusCode.CREATED,
-          responseMessage.SUCCESS_CREATED_ISSUE,
-          //newPost
-        )
-      );
+    return res.status(200).send(
+      authUtil.successTrue(
+        statusCode.CREATED,
+        responseMessage.SUCCESS_CREATED_ISSUE
+        //newPost
+      )
+    );
   } catch (err) {
     console.log(err);
     return res

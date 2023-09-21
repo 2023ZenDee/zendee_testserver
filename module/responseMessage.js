@@ -1,6 +1,8 @@
 module.exports = {
   SIGNUP_SUCCESS: "회원가입이 성공적으로 처리되었습니다.",
-  SIGNUP_FAIL: "중복된 회원 아이디 입니다.",
+  DUPLICATION_USERID : "중복된 회원 아이디 입니다.",
+  DUPLICATION_EMAIL : "중복된 회원 이메일 입니다.",
+  EMAIL_USERID_DUPLICATION : "회원 아이디, 이메일이 중복되었습니다.",
   SIGNUP_SERVER_ERROR: "회원가입 서버 오류",
 
   LOGIN_SUCCESS: "로그인이 성공적으로 처리되었습니다.",
@@ -103,5 +105,19 @@ module.exports = {
   MAIL_NOT_SENT : "인증 메일을 보내는데 실패하였습니다.",
 
   USER_REPORTED_SUCCESS : "신고 완료되었습니다.",
-  USER_REPORTED_FALSE : "신고 오류"
+  USER_REPORTED_FALSE : "신고 오류",
+
+  ACCESS_TOKEN : "AccessToken이 발급되었습니다.",
+
+  NO_ACCESS_RIGHT : "인증이 되지 않은 사용자 입니다.",
+  NO_MAILTOKEN : "메일 인증 토큰이 없습니다.",
+  MAIL_TOKEN_EXPRIED: "MailToken이 만료되었습니다. 다시 인증 해주십시오.",
+  INVALID_MAIL_TOKEN: "유효하지 않은 MailToken입니다.",
+
+  EMAIL_AUTH_FALSE : "이메일 인증 실패",
+
+  ADDRESS_GET_FALSE : "주소를 찾을 수 없습니다.",
+  SERVER_ERROR : "서버 에러"
+  
+  
 };

@@ -4,6 +4,8 @@ const path = require("path");
 const authUtil = require("../../module/authUtil");
 const statusCode = require("../../module/statusCode");
 const responseMessage = require("../../module/responseMessage");
+const { generateMailToken } = require("../../util/token/jwt");
+const mailCheck = require("./mailCheck");
 
 let appDir = path.dirname(require.main.filename);
 
@@ -31,20 +33,32 @@ const sendMail = async (req, res) => {
   });
 
   let mailOptions = await transporter.sendMail({
-    from: 'ljm9894@dgsw.hs.kr',
+    from: "ljm9894@dgsw.hs.kr",
     to: email,
     subject: `[${authNum}]회원가입을 위한 인증번호를 입력해주세요.`,
     html: emailTemplete,
   });
+  const mailToken = generateMailToken(email, authNum);
   transporter.sendMail(mailOptions, function (err, info) {
     if (err) {
-      res.status(200).send(
-        authUtil.successFalse(statusCode.BAD_REQUEST,responseMessage.MAIL_NOT_SENT)
-      )
+      res
+        .status(200)
+        .send(
+          authUtil.successFalse(
+            statusCode.BAD_REQUEST,
+            responseMessage.MAIL_NOT_SENT
+          )
+        );
     }
-    res.status(200).send(
-      authUtil.successTrue(statusCode.OK, responseMessage.MAIL_SENT, authNum)
-    )
+    res
+      .status(200)
+      .send(
+        authUtil.successTrue(
+          statusCode.OK,
+          responseMessage.MAIL_SENT,
+          mailToken
+        )
+      );
     transporter.close();
   });
 };

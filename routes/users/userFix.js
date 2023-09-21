@@ -6,16 +6,16 @@ const prisma = new PrismaClient();
 
 const userFix = async (req, res) => {
   try {
-    const { nick, image } = req.body;
+    const { nick } = req.body;
     const userId = req.user.userIdx;
-
+    const img = `img/${req.file.filename}`;
     const updateUser = await prisma.user.update({
       where: {
         userIdx: userId,
       },
       data: {
         nick,
-        image,
+        image: img,
       },
     });
     const data = {

@@ -2,6 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const authUtil = require("../../module/authUtil");
 const statusCode = require("../../module/statusCode");
 const responseMessage = require("../../module/responseMessage");
+const { commentAuthor } = require("../../util/response/comment");
 const prisma = new PrismaClient();
 
 module.exports = {
@@ -42,11 +43,7 @@ module.exports = {
   read: async (req, res) => {
     try {
       const reqIssue = parseInt(req.params.issue);
-      const comments = await prisma.comment.findMany({
-        where: {
-          posterIdx: reqIssue,
-        },
-      });
+      const comments = await commentAuthor(reqIssue);
       if (comments.length === 0) {
         return res
           .status(200)
@@ -66,6 +63,7 @@ module.exports = {
               comments
             )
           );
+
       }
     } catch (err) {
       console.log(err);

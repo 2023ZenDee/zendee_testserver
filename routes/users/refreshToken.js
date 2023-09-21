@@ -1,5 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
-const { generateAccessToken } = require("../../util/jwt");
+const { generateAccessToken } = require("../../util/token/jwt");
 const prisma = new PrismaClient();
 const jwt = require("jsonwebtoken");
 const authUtil = require("../../module/authUtil");
@@ -8,7 +8,7 @@ const statusCode = require("../../module/statusCode");
 require("dotenv").config();
 const secret = process.env.SECRET_KEY;
 const refreshToken = async (req, res) => {
-  const refreshToken = req.headers.refresh; // 쿠키에서 Refresh Token을 가져옴
+  const refreshToken = req.headers.refreshtoken; // 쿠키에서 Refresh Token을 가져옴
   if (!refreshToken) {
     return res
       .status(401)
@@ -38,7 +38,15 @@ const refreshToken = async (req, res) => {
     // 새로운 Access Token 생성
     const accessToken = generateAccessToken(user);
 
-    res.status(200).json({ accessToken });
+    res
+      .status(200)
+      .send(
+        authUtil.successTrue(
+          statusCode.OK,
+          responseMessage.ACCESS_TOKEN,
+          accessToken
+        )
+      );
   } catch (err) {
     if (err.name === "TokenExpiredError") {
       return res
@@ -50,7 +58,6 @@ const refreshToken = async (req, res) => {
           )
         );
     }
-    console.log(err);
     return res
       .status(401)
       .json(

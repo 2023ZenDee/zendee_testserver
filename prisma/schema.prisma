@@ -66,12 +66,13 @@ model post {
   updated_at      DateTime
   latitude        Float
   longitude       Float
-  deleted_at      DateTime?
+  deleted_at      DateTime
   authorIdx       Int
   postImg         String
+  address String?
   views    Int     @default(0) // 조회수 필드
+  
   comment         comment[]
-
   likes           likes[]
   user            user              @relation(fields: [authorIdx], references: [userIdx], map: "Post_authorIdx_fkey")
   tags TagOnPosts[]
@@ -104,8 +105,8 @@ model user {
   userId          String            @unique(map: "User_userId_key")
   nick            String            @unique(map: "User_nick_key")
   password        String
-  image           String            @default("null")
-  email           String
+  image           String?           
+  email           String            @unique
   email_check     Boolean           @default(false)
   role            user_role         @default(USER)
   created_at      DateTime          @default(now())
@@ -115,7 +116,6 @@ model user {
   likes           likes[]
   post            post[]
   postreporter    postreporter[]
-  socialLogin socialLogin[]
   reportsSent userreporter[] @relation("ReportsSent")
   reportsReceived userreporter[] @relation("ReportsReceived")
 
@@ -129,13 +129,6 @@ model TagOnPosts {
   @@id([postIdx, tagIdx])
 }
 
-model socialLogin{
-  socialIdx Int @id @default(autoincrement())
-  type String 
-  userIdx Int
-  user user @relation(fields: [userIdx], references: [userIdx])
-
-}
 
 enum user_role {
   USER
