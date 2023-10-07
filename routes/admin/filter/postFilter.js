@@ -8,6 +8,11 @@ const { manyPost } = require("../../../util/response/post");
 const postFilter = async (req, res) => {
   const { sortBy, address } = req.query;
   try {
+    if(!sortBy && !address){
+      return res
+        .status(400)
+        .send(authUtil.successFalse(statusCode.BAD_REQUEST, responseMessage.SORT_UNKNOW));
+    }
     const soltedPost = await sortPost(sortBy, address);
     const result = await manyPost(soltedPost);
     

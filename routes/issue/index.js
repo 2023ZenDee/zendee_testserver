@@ -7,11 +7,13 @@ const getBoard = require("./getboard");
 const deleteIssue = require("./delissue");
 const fixedIssue = require("./fixissue");
 const { upload } = require("../../middleware/multer");
+const issueRanked = require("./rank");
 
 
 router.post("/", authenticateUser, upload.single('img') ,issues);
 router.get("/mymap", authenticateUser, getIssue);
-router.get("/board/:page", authenticateUser, getBoard);
+router.get("/:page", authenticateUser, getBoard);
+router.get("/rank/issue", authenticateUser, issueRanked);
 
 
 router.patch("/fix/:issueIdx", authenticateUser, fixedIssue);

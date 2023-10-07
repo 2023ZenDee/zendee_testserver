@@ -8,6 +8,11 @@ exports.sortPost = async (sortBy, address) => {
       orderBy: {
         views: "desc",
       },
+      where : {
+        address : {
+          contains : address
+        }
+      },
       include : {
         comment : true,
         tags : true,
@@ -87,5 +92,5 @@ exports.sortPost = async (sortBy, address) => {
     }
   }
    
-  return sortedPosts
+  return sortedPosts;
 };

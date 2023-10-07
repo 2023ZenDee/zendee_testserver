@@ -5,6 +5,6 @@ const postFilter = require("./postFilter");
 const router = express.Router();
 
 // router.get("/posts", authenticateUser, likesFilter);
-router.get("/posts", postFilter);
+router.get("/post", postFilter);
 
 module.exports = router;

@@ -7,7 +7,7 @@ const generateAccessToken = (user) => {
       id: user,
     },
     secret, // Access Token에 사용할 비밀 키
-    { expiresIn: "2h" } // Access Token의 유효 기간 설정
+    { expiresIn: process.env.TOKEN_EXPIRED } // Access Token의 유효 기간 설정
   );
   return accessToken;
 };
@@ -19,7 +19,7 @@ const generateRefreshToken = (user) => {
       id: user,
     },
     secret, // Refresh Token에 사용할 비밀 키
-    { expiresIn: "16d" }
+    { expiresIn: process.env.REFRESHTOKEN_EXPIRED }
   );
   return refreshToken;
 };

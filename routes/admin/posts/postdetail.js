@@ -3,7 +3,7 @@ const authUtil = require('../../../module/authUtil');
 const statusCode = require('../../../module/statusCode');
 const responseMessage = require('../../../module/responseMessage');
 const { commentAuthor } = require('../../../util/response/comment');
-const comment = require('../../../util/response/comment');
+const { reportCount } = require('../../../util/response/reportcount');
 const prisma = new PrismaClient()
 
 const postsDetail = async(req,res) =>{
@@ -18,6 +18,7 @@ const postsDetail = async(req,res) =>{
             user: true,
             tags: true,
             comment: true,
+            postreporter : true
           },
         });
         const tag = await prisma.tag.findUnique({
@@ -31,9 +32,18 @@ const postsDetail = async(req,res) =>{
             }
         })
         const author = await commentAuthor(findPost.comment.cmtIdx);
+        const postReportCount = await reportCount(findPost.postreporter);
+        if(!postReportCount[0]){
+          findPost.postreporter = 0
+        }
+        else{
+          findPost.postreporter = parseInt(postReportCount);
+        }
+
         findPost.comment = author;
         findPost.tags = tag.tagName;
         findPost.user = user.nick; 
+        
 
         if(!findPost){
             return res.status(204).send(

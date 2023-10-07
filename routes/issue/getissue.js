@@ -8,9 +8,8 @@ const prisma = new PrismaClient();
 const getIssue = async (req, res) => {
   try {
     const { lat, lng } = req.query;
-    const currentTime = new Date();
-    currentTime.setHours(currentTime.getHours() + 9); 
-
+    let currentTime = new Date();
+    currentTime = new Date(currentTime.setHours(currentTime.getHours() + 9)); 
     const filteringIssue = await prisma.post.findMany({
       where: {
         latitude: {
@@ -58,7 +57,7 @@ const getIssue = async (req, res) => {
   } catch (err) {
     console.log(err);
     return res
-      .status(200)
+      .status(500)
       .send(
         authUtil.successFalse(statusCode.OK, responseMessage.FALSE_FOUND_ISSUE)
       );

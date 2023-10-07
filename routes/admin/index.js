@@ -6,5 +6,5 @@ const router = express.Router();
 
 router.use('/reported', reportRouter);
 router.use('/filter', filterRouter);
-router.use('/posts', postDetailRouter);
+router.use('/post', postDetailRouter);
 module.exports = router;

@@ -50,7 +50,7 @@ const login = async (req, res) => {
       .send(
         util.successFalse(
           statusCode.INTERNAL_SERVER_ERROR,
-          resMessage.SIGNUP_SERVER_ERROR
+          resMessage.SERVER_ERROR
         )
       );
   }

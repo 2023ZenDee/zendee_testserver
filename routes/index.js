@@ -12,12 +12,11 @@ const router = express.Router();
 
 
 router.use('/auth',userRouter);
-router.use('/issues', postRouter);
+router.use('/issue', postRouter);
 router.use('/like', likeRouter);
-router.use('/comments', commentRouter);
+router.use('/comment', commentRouter);
 router.use('/report', reportRouter);
 router.use('/mail', mailRouter);
-// router.use('/filter', filterRouter);
 router.use('/admin', adminRouter);
 router.use('/oauth', oauthRouter);
 

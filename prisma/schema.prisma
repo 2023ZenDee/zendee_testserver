@@ -104,13 +104,15 @@ model user {
   userIdx         Int               @id @default(autoincrement())
   userId          String            @unique(map: "User_userId_key")
   nick            String            @unique(map: "User_nick_key")
-  password        String
+  password        String?
   image           String?           
-  email           String            @unique
+  email           String            @unique(    )
   email_check     Boolean           @default(false)
+  provider        oauth_role  @default(LOCAL)
   role            user_role         @default(USER)
   created_at      DateTime          @default(now())
-  updated_at      DateTime
+  updated_at      DateTime?
+
   comment         comment[]
   commentreporter commentreporter[]
   likes           likes[]
@@ -133,4 +135,9 @@ model TagOnPosts {
 enum user_role {
   USER
   ADMIN
+}
+
+enum oauth_role{
+  GOOGLE
+  LOCAL
 }

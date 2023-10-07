@@ -5,12 +5,9 @@ const { commentAuthor } = require("./comment");
 const prisma = new PrismaClient();
 module.exports = {
   resPost: async (board) => {
-    const views = await prisma.post.update({
+    const findPost = await prisma.post.findUnique({
       where: {
         postIdx: board.postIdx,
-      },
-      data: {
-        views: board.views + 1,
       },
       include: {
         tags: true,
@@ -20,24 +17,24 @@ module.exports = {
     });
     const tag = await prisma.tag.findUnique({
       where: {
-        tagIdx: views.tags[0].tagIdx,
+        tagIdx: findPost.tags[0].tagIdx,
       },
     });
     const findUser = await prisma.user.findUnique({
       where: {
-        userIdx: views.user.userIdx,
+        userIdx: findPost.user.userIdx,
       },
     });
-    const likeCount = await likesCount(views.postIdx);
-    const badCount = await badsCount(views.postIdx);
-    const cmtCount = await commentsCount(views.postIdx);
-    views.tags = tag.tagName;
-    views.user = findUser.nick;
-    views.userImg = findUser.image;
-    views.likes = likeCount;
-    views.bads = badCount;
-    views.comments = cmtCount;
-    return views;
+    const likeCount = await likesCount(findPost.postIdx);
+    const badCount = await badsCount(findPost.postIdx);
+    const cmtCount = await commentsCount(findPost.postIdx);
+    findPost.tags = tag.tagName;
+    findPost.user = findUser.nick;
+    findPost.userImg = findUser.image;
+    findPost.likes = likeCount;
+    findPost.bads = badCount;
+    findPost.comments = cmtCount;
+    return findPost;
   },
   manyPost: async (sortedPost) => {
     const result = await Promise.all(

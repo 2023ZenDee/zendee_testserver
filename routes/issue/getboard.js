@@ -37,7 +37,16 @@ const getBoard = async (req, res) => {
         );
     }
 
+    await prisma.post.update({
+      where : {
+        postIdx : board.postIdx
+      },
+      data: {
+        views: board.views + 1,
+      },
+    });
     const post = await resPost(board);
+    
     return res
       .status(200)
       .json(
