@@ -18,7 +18,7 @@ const router = express.Router();
 router.post("/register", register); //회원가입
 router.post("/login", login); //로그인
 
-router.post("/refreshToken", authenticateUser ,refreshToken); //refresh토큰 검증
+router.post("/refreshToken" ,refreshToken); //refresh토큰 검증
 router.get("/my", authenticateUser, getUser); //내 정보 불러오기
 
 router.get("/my/issue", authenticateUser, myIssue); //내가 작성한 이슈

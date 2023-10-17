@@ -7,18 +7,28 @@ const prisma = new PrismaClient();
 
 
 const issueRanked = async(req,res) =>{
-    const {sortBy, tag} = req.query;
+    const {sortBy} = req.query;
+    const { tags} = req.body;
     const validTags = ["경고", "뜨거움", "재미", "행운", "공지", "활동", "사랑"];
     try{
-        // if(!validTags.includes(tag)){
-        //     return res.status(200).send(authUtil.successTrue(statusCode.BAD_REQUEST, responseMessage.INVALID_TAG))
-        // }
+        const validTag = await Promise.all(
+            tags.map((tag)=>{
+                if (!validTags.includes(tag)) {
+                  return null
+                }
+                return tag;
+                
+            })
+        )
+
+        const validedTag = validTag.filter((tag) => tag !== null)
+        
         const post = await filterIssueByQuery(sortBy);
-        // if(!post){
-        //     return res.status(200).send(authUtil.successTrue(statusCode.NO_CONTENT,responseMessage.NO_ISSUE))
-        // }
-        //const result = await filterIssueByTag(post,tag);
-        const result = await postData(post);
+        if(!post){
+            return res.status(200).send(authUtil.successTrue(statusCode.NO_CONTENT,responseMessage.NO_ISSUE))
+        }
+        const processPost = await filterIssueByTag(post,validTag);
+        const result = await postData(processPost);
         if(!result){
             return res
               .status(200)

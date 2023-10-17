@@ -83,15 +83,14 @@ module.exports = {
         });
 
         if (matchingTags.length > 0) {
-          // post에 해당 태그가 포함된 경우만 반환
+      
           return post;
         }
 
-        return null; // 태그가 없는 경우 null 반환
+        return null;
       })
     );
 
-    // null이 아닌 포스트만 필터링
     const filteredPosts = result.filter((post) => post !== null);
 
     return filteredPosts;

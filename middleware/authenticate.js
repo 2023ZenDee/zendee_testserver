@@ -39,7 +39,6 @@ exports.authenticateUser = async (req, res, next) => {
 
     next();
   } catch (err) {
-    console.log(err);
     if ((err.name = "TokenExpiredError")) {
       return res
         .status(401)
