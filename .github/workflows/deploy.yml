@@ -49,5 +49,5 @@ jobs:
       - name: build server files
         working-directory: ./
         run: |
-          yarn
-          yarn run build
+          npm install
+          npm run build --if-present
