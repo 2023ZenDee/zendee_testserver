@@ -3,27 +3,13 @@ const { resPost } = require("../response/post");
 const prisma = new PrismaClient();
 
 module.exports = {
-  filterIssueByQuery: async (sortBy) => {
+  filterIssueByQuery: async (sortBy, posts) => {
+  
     let sortedPosts;
       if (sortBy === "views") {
-        sortedPosts = await prisma.post.findMany({
-          orderBy: {
-            views: "desc",
-          },
-          include: {
-            tags: true,
-          },
-        });
-      } else {
-        const posts = await prisma.post.findMany({
-          include : {
-            tags : true,
-          }
-        });
-         
-        // if(!posts){
-        //   return;
-        // }
+        sortedPosts = posts.sort((a,b) => b.views - a.views);
+        return sortedPosts;
+      } else { 
         if (sortBy === "likes") {
           const postsWithLikesCount = await Promise.all(
             posts.map(async (post) => {
@@ -69,6 +55,7 @@ module.exports = {
     return sortedPosts;
   },
   filterIssueByTag: async (sortedPosts, tagName) => {
+  
     const result = await Promise.all(
       sortedPosts.map(async (post) => {
         const matchingTags = await prisma.tag.findMany({

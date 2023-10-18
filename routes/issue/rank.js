@@ -3,45 +3,81 @@ const authUtil = require('../../module/authUtil');
 const statusCode = require('../../module/statusCode');
 const responseMessage = require('../../module/responseMessage');
 const { filterIssueByTag, filterIssueByQuery, postData } = require('../../util/sort/tagsFilter');
+const { validTag } = require('../../validation/validateTag');
 const prisma = new PrismaClient();
 
 
 const issueRanked = async(req,res) =>{
     const {sortBy} = req.query;
     const { tags} = req.body;
-    const validTags = ["경고", "뜨거움", "재미", "행운", "공지", "활동", "사랑"];
+    let postsToSort;
     try{
-        const validTag = await Promise.all(
-            tags.map((tag)=>{
-                if (!validTags.includes(tag)) {
-                  return null
+      const resultTag = await validTag(tags);
+      switch(sortBy){
+        case "views" :
+            postsToSort = await prisma.post.findMany({
+                orderBy: {
+                    views : "desc",
+                },
+                include : {
+                    tags : true,
                 }
-                return tag;
                 
-            })
-        )
+            }) 
+            break;
+        case "likes" :
+        case "bads" :
+           postsToSort = await prisma.post.findMany({
+             include: {
+               tags: true,
+             },
+           });
+           break;
+        default :
+            break;
+      }
+      if (postsToSort.length === 0) {
+        return res
+          .status(200)
+          .send(
+            authUtil.successTrue(
+              statusCode.NO_CONTENT,
+              responseMessage.NO_ISSUE
+            )
+          );
+      }
+    
+      const postsByTags = await Promise.all(
+        resultTag.map(async (tagName) => {
+          return await filterIssueByTag(postsToSort, tagName);
+        })
+      );
 
-        const validedTag = validTag.filter((tag) => tag !== null)
-        
-        const post = await filterIssueByQuery(sortBy);
-        if(!post){
-            return res.status(200).send(authUtil.successTrue(statusCode.NO_CONTENT,responseMessage.NO_ISSUE))
-        }
-        const processPost = await filterIssueByTag(post,validTag);
-        const result = await postData(processPost);
-        if(!result){
-            return res
-              .status(200)
-              .send(
-                authUtil.successTrue(
-                  statusCode.NO_CONTENT,
-                  responseMessage.NO_ISSUE
-                )
-              );
-        }
+      const filteredPosts = postsByTags.flat();
 
-        return res.status(200).send(
-            authUtil.successTrue(statusCode.OK, responseMessage.RANK_SORT_SUCCESS, result)
+      const joinToPost = await postData(filteredPosts);
+      if (!joinToPost) {
+        return res
+          .status(200)
+          .send(
+            authUtil.successTrue(
+              statusCode.NO_CONTENT,
+              responseMessage.NO_ISSUE
+            )
+          );
+      }
+
+      const result = await filterIssueByQuery(sortBy,joinToPost);
+      
+
+      return res
+        .status(200)
+        .send(
+          authUtil.successTrue(
+            statusCode.OK,
+            responseMessage.RANK_SORT_SUCCESS,
+            result
+          )
         );
     }catch(e){
         console.log(e)
