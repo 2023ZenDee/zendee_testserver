@@ -1,7 +1,7 @@
 const express = require("express");
 const reportRouter = require('./report');
 const filterRouter = require('./filter');
-const postDetailRouter = require('./posts');
+const postDetailRouter = require('./postdetail');
 const router = express.Router();
 
 router.use('/reported', reportRouter);

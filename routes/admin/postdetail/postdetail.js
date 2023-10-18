@@ -3,7 +3,7 @@ const authUtil = require('../../../module/authUtil');
 const statusCode = require('../../../module/statusCode');
 const responseMessage = require('../../../module/responseMessage');
 const { commentAuthor } = require('../../../util/response/comment');
-const { reportCount } = require('../../../util/response/reportcount');
+const { reportCount } = require('../global/reportcount');
 const prisma = new PrismaClient()
 
 const postsDetail = async(req,res) =>{
@@ -30,7 +30,8 @@ const postsDetail = async(req,res) =>{
             where : {
                 userIdx : findPost.authorIdx
             }
-        })
+        });
+    
         const author = await commentAuthor(findPost.comment.cmtIdx);
         const postReportCount = await reportCount(findPost.postreporter);
         if(!postReportCount[0]){
