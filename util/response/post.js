@@ -1,5 +1,4 @@
 const { PrismaClient } = require("@prisma/client");
-const { getAddress } = require("./address");
 const { likesCount, badsCount, commentsCount } = require("./count");
 const { commentAuthor } = require("./comment");
 const prisma = new PrismaClient();
@@ -28,10 +27,21 @@ module.exports = {
     const likeCount = await likesCount(findPost.postIdx);
     const badCount = await badsCount(findPost.postIdx);
     const cmtCount = await commentsCount(findPost.postIdx);
+    let likeOrBad = null;
+    if (findPost.likes[0]) {
+      const userLikesPost = await prisma.likes.findUnique({
+        where: {
+          likeIdx: findPost.likes[0].likeIdx,
+        },
+      });
+      likeOrBad = userLikesPost.likesBad;
+    }
+
     findPost.tags = tag.tagName;
     findPost.user = findUser.nick;
     findPost.userImg = findUser.image;
     findPost.likes = likeCount;
+    findPost.userLikesPost = likeOrBad;
     findPost.bads = badCount;
     findPost.comments = cmtCount;
     return findPost;

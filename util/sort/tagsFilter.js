@@ -7,8 +7,8 @@ module.exports = {
   
     let sortedPosts;
       if (sortBy === "views") {
-        sortedPosts = posts.sort((a,b) => b.views - a.views);
-        return sortedPosts;
+        //sortedPosts = posts.sort((a,b) => b.views - a.views);
+        return posts;
       } else { 
         if (sortBy === "likes") {
           const postsWithLikesCount = await Promise.all(
@@ -30,6 +30,7 @@ module.exports = {
             (a, b) => b.likesCount - a.likesCount
           );
         } else if (sortBy === "bads") {
+          
           const postsWithLikesCount = await Promise.all(
             posts.map(async (post) => {
               const badsCount = await prisma.likes.count({
@@ -46,7 +47,7 @@ module.exports = {
           );
 
           sortedPosts = postsWithLikesCount.sort(
-            (a, b) => b.likesCount - a.likesCount
+            (a, b) => b.badsCount - a.badsCount
           );
         }
       }
