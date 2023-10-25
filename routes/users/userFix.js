@@ -8,19 +8,31 @@ const userFix = async (req, res) => {
   try {
     const { nick } = req.body;
     const userId = req.user.userIdx;
-    const img = `img/${req.file.filename}`;
+    //const img = `img/${req.file.filename}`;
+    const filePath = req.file.location;
+    if (!filePath) {
+      return res
+        .status(401)
+        .send(
+          authUtil.successTrue(
+            statusCode.UNAUTHORIZED,
+            responseMessage.INVALID_FILE
+          )
+        );
+    }
+    
     const updateUser = await prisma.user.update({
       where: {
         userIdx: userId,
       },
       data: {
         nick,
-        image: img,
+        image: filePath,
       },
     });
     const data = {
       nick : updateUser.nick,
-      image : updateUser.image,
+      image : filePath,
     }
     return res
       .status(200)

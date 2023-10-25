@@ -126,4 +126,5 @@ module.exports = {
 
   NO_ISSUE : "이슈가 없습니다.",
   NULL_VALUE : "페이지 값이 비어있습니다.",
+  INVALID_FILE : "파일이 비어 있습니다.",
 };

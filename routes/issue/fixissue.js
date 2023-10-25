@@ -2,10 +2,11 @@ const { PrismaClient } = require("@prisma/client");
 const authUtil = require("../../module/authUtil");
 const statusCode = require("../../module/statusCode");
 const responseMessage = require("../../module/responseMessage");
+const { validationIssue } = require("../../validation/issuecheck");
 const prisma = new PrismaClient();
 
 const fixedIssue = async (req, res) => {
-  const { title, content, postImg } = req.body;
+  const { title, content } = req.body;
   try {
     const issueIdx = parseInt(req.params.issueIdx);
     const findIssue = await prisma.post.findUnique({
@@ -13,7 +14,22 @@ const fixedIssue = async (req, res) => {
         postIdx: issueIdx,
       },
     });
-
+    const filePath = req.file.location;
+    if (!filePath) {
+      return res
+        .status(401)
+        .send(
+          authUtil.successTrue(
+            statusCode.UNAUTHORIZED,
+            responseMessage.INVALID_FILE
+          )
+        );
+    }
+    if(!validationIssue(issueIdx) || findIssue === null){
+      return res.status(404).send(
+        authUtil.successTrue(statusCode.NOT_FOUND, responseMessage.NOT_FOUND_ISSUE)
+      )
+    }
     if (req.user.userIdx !== findIssue.authorIdx) {
       return res
         .status(200)
@@ -31,7 +47,7 @@ const fixedIssue = async (req, res) => {
       data: {
         title,
         content,
-        postImg,
+        postImg : filePath,
       },
     });
     return res
@@ -46,7 +62,7 @@ const fixedIssue = async (req, res) => {
   } catch (err) {
     console.log(err);
     return res
-      .status(200)
+      .status(500)
       .send(
         authUtil.successFalse(
           statusCode.INTERNAL_SERVER_ERROR,

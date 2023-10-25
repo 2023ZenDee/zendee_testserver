@@ -8,7 +8,6 @@ const prisma = new PrismaClient();
 const issue = async (req, res) => {
   const { title, content, lat, lng, tag, deleted_at } = req.body;
   const currentTime = new Date();
-  let img;
   currentTime.setMinutes(currentTime.getMinutes() + parseInt(deleted_at));
   currentTime.setHours(currentTime.getHours() + 9);
   const expired_at = currentTime;
@@ -25,11 +24,13 @@ const issue = async (req, res) => {
   }
 
   try {
-    if (!req.file) {
-      img = null;
-    } else {
-      img = `img/${req.file.filename}`;
+    const filePath = req.file.location;
+    if(!filePath){
+      return res.status(401).send(
+        authUtil.successTrue(statusCode.UNAUTHORIZED, responseMessage.INVALID_FILE)
+      )
     }
+    
     const address = await getAddress(lat, lng);
     if (!address) {
       return res
@@ -45,7 +46,7 @@ const issue = async (req, res) => {
       data: {
         title,
         content,
-        postImg: img,
+        postImg: filePath,
         longitude: parseFloat(lng),
         latitude: parseFloat(lat),
         address: address,

@@ -9,7 +9,7 @@ module.exports = {
             }
         })
         if(!issue){
-            return true
+            return true;
         }
         return false;
     }
