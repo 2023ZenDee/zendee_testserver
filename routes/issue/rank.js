@@ -12,12 +12,11 @@ const prisma = new PrismaClient();
 
 const issueRanked = async (req, res) => {
   const { sortBy, page, pageSize } = req.query;
-  const offset = (page - 1) * pageSize <= 0 ? 1 : (page-1)*pageSize;
   const { tags } = req.body;
   let postsToSort;
   try {
     const resultTag = await validTag(tags);
-    if(!page || !pageSize){
+    if(!page || !pageSize|| page<=0){
       return res.status(400).send(
         authUtil.successTrue(statusCode.BAD_REQUEST, responseMessage.NULL_VALUE)
       )
@@ -26,8 +25,8 @@ const issueRanked = async (req, res) => {
     switch (sortBy) {
       case "views":
         postsToSort = await prisma.post.findMany({
-          skip: offset,
-          take: parseInt(pageSize),
+          // skip: offset,
+          // take: parseInt(pageSize)+1,
           orderBy: {
             views: "desc",
           },
@@ -39,8 +38,8 @@ const issueRanked = async (req, res) => {
       case "likes":
       case "bads":
         postsToSort = await prisma.post.findMany({
-          skip: offset,
-          take: parseInt(pageSize),
+          // skip: offset,
+          // take: parseInt(pageSize),
           include: {
             tags: true,
           },
@@ -62,20 +61,14 @@ const issueRanked = async (req, res) => {
         return await filterIssueByTag(postsToSort, tagName);
       })
     );
-
+    
     const filteredPosts = postsByTags.flat();
-
     const joinToPost = await postData(filteredPosts);
-    if (!joinToPost) {
-      return res
-        .status(200)
-        .send(
-          authUtil.successTrue(statusCode.NO_CONTENT, responseMessage.NO_ISSUE)
-        );
-    }
-
-    const result = await filterIssueByQuery(sortBy, joinToPost);
-
+    const sortPost = await filterIssueByQuery(sortBy, joinToPost);
+    const start = (page-1) * pageSize;
+    const end = start+ parseInt(pageSize);
+    const result = sortPost.slice(start, end);
+    console.log(sortPost.length);
     return res
       .status(200)
       .send(
