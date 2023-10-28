@@ -125,6 +125,5 @@ module.exports = {
   RANK_SORT_SUCCESS : "랭크 조회 성공",
 
   NO_ISSUE : "이슈가 없습니다.",
-  NULL_VALUE : "페이지 값이 비어있습니다.",
-  INVALID_FILE : "파일이 비어 있습니다.",
+  NULL_VALUE : " 올바르지 않은 형식입니다.",
 };

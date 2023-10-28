@@ -7,47 +7,46 @@ module.exports = {
   
     let sortedPosts;
       if (sortBy === "views") {
-        //sortedPosts = posts.sort((a,b) => b.views - a.views);
-        return posts;
+        sortedPosts = posts.sort((a,b) => b.views - a.views);
       } else { 
         if (sortBy === "likes") {
-          const postsWithLikesCount = await Promise.all(
-            posts.map(async (post) => {
-              const likesCount = await prisma.likes.count({
-                where: {
-                  likesBad: true,
-                  posterIdx: post.postIdx,
-                },
-              });
-              return {
-                ...post,
-                likesCount,
-              };
-            })
-          );
+          // const postsWithLikesCount = await Promise.all(
+          //   posts.map(async (post) => {
+          //     const likesCount = await prisma.likes.count({
+          //       where: {
+          //         likesBad: true,
+          //         posterIdx: post.postIdx,
+          //       },
+          //     });
+          //     return {
+          //       ...post,
+          //       likesCount,
+          //     };
+          //   })
+          // );
 
-          sortedPosts = postsWithLikesCount.sort(
-            (a, b) => b.likesCount - a.likesCount
+          sortedPosts = posts.sort(
+            (a, b) => b.likes - a.likes
           );
         } else if (sortBy === "bads") {
           
-          const postsWithLikesCount = await Promise.all(
-            posts.map(async (post) => {
-              const badsCount = await prisma.likes.count({
-                where: {
-                  likesBad: false,
-                  posterIdx: post.postIdx,
-                },
-              });
-              return {
-                ...post,
-                badsCount,
-              };
-            })
-          );
+          // const postsWithLikesCount = await Promise.all(
+          //   posts.map(async (post) => {
+          //     const badsCount = await prisma.likes.count({
+          //       where: {
+          //         likesBad: false,
+          //         posterIdx: post.postIdx,
+          //       },
+          //     });
+          //     return {
+          //       ...post,
+          //       badsCount,
+          //     };
+          //   })
+          // );
 
-          sortedPosts = postsWithLikesCount.sort(
-            (a, b) => b.badsCount - a.badsCount
+          sortedPosts = posts.sort(
+            (a, b) => b.bads - a.bad
           );
         }
       }

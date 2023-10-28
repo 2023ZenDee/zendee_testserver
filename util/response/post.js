@@ -19,27 +19,22 @@ module.exports = {
         tagIdx: findPost.tags[0].tagIdx,
       },
     });
-    const findUser = await prisma.user.findUnique({
-      where: {
-        userIdx: findPost.user.userIdx,
-      },
-    });
     const likeCount = await likesCount(findPost.postIdx);
     const badCount = await badsCount(findPost.postIdx);
     const cmtCount = await commentsCount(findPost.postIdx);
     let likeOrBad = null;
     if (findPost.likes[0]) {
-      const userLikesPost = await prisma.likes.findUnique({
+      const userLikesPost = await prisma.likes.findFirst({
         where: {
-          likeIdx: findPost.likes[0].likeIdx,
+          likeIdx : findPost.likes[0].likeIdx
         },
       });
       likeOrBad = userLikesPost.likesBad;
     }
 
     findPost.tags = tag.tagName;
-    findPost.user = findUser.nick;
-    findPost.userImg = findUser.image;
+    findPost.user = findPost.user.nick;
+    findPost.userImg = findPost.user.image;
     findPost.likes = likeCount;
     findPost.userLikesPost = likeOrBad;
     findPost.bads = badCount;

@@ -24,12 +24,12 @@ const issue = async (req, res) => {
   }
 
   try {
-    const filePath = req.file.location;
-    if(!filePath){
-      return res.status(401).send(
-        authUtil.successTrue(statusCode.UNAUTHORIZED, responseMessage.INVALID_FILE)
-      )
-    }
+    const filePath = !req.file ? null :req.file.location;
+    // if(!filePath){
+    //   return res.status(401).send(
+    //     authUtil.successTrue(statusCode.UNAUTHORIZED, responseMessage.INVALID_FILE)
+    //   )
+    // }
     
     const address = await getAddress(lat, lng);
     if (!address) {
