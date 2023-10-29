@@ -2,7 +2,6 @@ const express = require("express");
 const login = require("./login");
 const register = require("./signUp");
 const refreshToken = require("./refreshToken");
-const logout = require("./logout");
 const { authenticateUser } = require("../../middleware/authenticate");
 const getUser = require("./getuser");
 const delUser = require("./deluser");
@@ -31,6 +30,5 @@ router.patch("/my/fix", authenticateUser, imageUploader.single("img"), userFix);
 router.patch("/my/pwd/fix", authenticateUser, changePwd); //비밀번호 수정
 
 router.delete("/fire", authenticateUser, delUser); //회원 탈퇴
-router.delete("/logout", authenticateUser, logout); //로그아웃
 
 module.exports = router;
