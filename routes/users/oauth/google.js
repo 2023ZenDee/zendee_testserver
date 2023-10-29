@@ -30,7 +30,7 @@ const googleLogin = async (req, res) => {
       });
       const accessToken = generateAccessToken(email);
       const refreshToken = generateRefreshToken(email);
-      req
+      res
         .status(201)
         .send(
           authUtil.jwtSent(
