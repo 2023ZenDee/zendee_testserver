@@ -126,4 +126,6 @@ module.exports = {
 
   NO_ISSUE : "이슈가 없습니다.",
   NULL_VALUE : " 올바르지 않은 형식입니다.",
+
+  NOT_FOUND_COMMENT : "댓글을 찾을 수 없습니다.",
 };
