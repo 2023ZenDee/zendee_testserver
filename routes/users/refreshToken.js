@@ -8,7 +8,7 @@ const statusCode = require("../../module/statusCode");
 require("dotenv").config();
 const secret = process.env.SECRET_KEY;
 const refreshToken = async (req, res) => {
-  const refreshToken = req.headers.refreshtoken; // 쿠키에서 Refresh Token을 가져옴
+  const refreshToken = req.headers.refreshtoken;
   if (!refreshToken) {
     return res
       .status(401)
@@ -36,7 +36,7 @@ const refreshToken = async (req, res) => {
     }
 
     // 새로운 Access Token 생성
-    const accessToken = generateAccessToken(user);
+    const accessToken = generateAccessToken(userId);
 
     res
       .status(200)
@@ -57,15 +57,23 @@ const refreshToken = async (req, res) => {
             responseMessage.REFRESH_TOKEN_EXPIRED
           )
         );
-    }
-    return res
-      .status(401)
-      .json(
-        authUtil.successTrue(
-          statusCode.UNAUTHORIZED,
-          responseMessage.INVALID_REFRESH_TOKEN
+    } else if (err.name === "JsonWebTokenError") {
+      return res
+        .status(401)
+        .json(
+          authUtil.successTrue(
+            statusCode.UNAUTHORIZED,
+            responseMessage.INVALID_REFRESH_TOKEN
+          )
+        );
+    }else{
+      return res.status(500).json(
+        authUtil.successFalse(
+          statusCode.INTERNAL_SERVER_ERROR,
+          responseMessage.SERVER_ERROR
         )
-      );
+      )
+    }
   }
 };
 
