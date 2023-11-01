@@ -12,7 +12,12 @@ const issueReport = async(req,res) =>{
             where : {
                 cmtIdx
             }
-        })
+        });
+        if(!findComment){
+            return res.status(404).send(
+                authUtil.successTrue(statusCode.NOT_FOUND, responseMessage.NOT_FOUND_COMMENT)
+            )
+        }
         const reported = await prisma.commentreporter.create({
             data : {
                 cmtReportContent : content,

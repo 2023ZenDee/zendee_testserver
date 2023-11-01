@@ -11,7 +11,7 @@ const postFilter = async (req, res) => {
     if(!sortBy && !address){
       return res
         .status(400)
-        .send(authUtil.successFalse(statusCode.BAD_REQUEST, responseMessage.SORT_UNKNOW));
+        .send(authUtil.successTrue(statusCode.BAD_REQUEST, responseMessage.SORT_UNKNOW));
     }
     const soltedPost = await sortPost(sortBy, address);
     const result = await manyPost(soltedPost);

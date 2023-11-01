@@ -1,7 +1,6 @@
 const { PrismaClient} = require('@prisma/client');
 const authUtil = require('../../../module/authUtil');
 const statusCode = require('../../../module/statusCode');
-const responseMessage = require('../../../module/responseMessage');
 const adminMessage = require('../../../module/adminMessage');
 const { postCountDataByRegion } = require('../global/adminResponse');
 const prisma = new PrismaClient();
