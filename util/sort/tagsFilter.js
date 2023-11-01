@@ -10,40 +10,11 @@ module.exports = {
         sortedPosts = posts.sort((a,b) => b.views - a.views);
       } else { 
         if (sortBy === "likes") {
-          // const postsWithLikesCount = await Promise.all(
-          //   posts.map(async (post) => {
-          //     const likesCount = await prisma.likes.count({
-          //       where: {
-          //         likesBad: true,
-          //         posterIdx: post.postIdx,
-          //       },
-          //     });
-          //     return {
-          //       ...post,
-          //       likesCount,
-          //     };
-          //   })
-          // );
 
           sortedPosts = posts.sort(
             (a, b) => b.likes - a.likes
           );
         } else if (sortBy === "bads") {
-          
-          // const postsWithLikesCount = await Promise.all(
-          //   posts.map(async (post) => {
-          //     const badsCount = await prisma.likes.count({
-          //       where: {
-          //         likesBad: false,
-          //         posterIdx: post.postIdx,
-          //       },
-          //     });
-          //     return {
-          //       ...post,
-          //       badsCount,
-          //     };
-          //   })
-          // );
 
           sortedPosts = posts.sort(
             (a, b) => b.bads - a.bad
@@ -82,13 +53,4 @@ module.exports = {
 
     return filteredPosts;
   },
-  postData : async(data) =>{
-    const result = Promise.all(
-      data.map(async(post) =>{
-        const posts = await resPost(post);
-        return posts;
-      })
-    )
-    return result;
-  }
 };
