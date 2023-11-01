@@ -5,9 +5,9 @@ const responseMessage = require("../../module/responseMessage");
 const {
   filterIssueByTag,
   filterIssueByQuery,
-  postData,
 } = require("../../util/sort/tagsFilter");
 const { validTag } = require("../../validation/validateTag");
+const { postData } = require("../../util/response/data");
 const prisma = new PrismaClient();
 
 const issueRanked = async (req, res) => {
