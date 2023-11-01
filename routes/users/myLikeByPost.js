@@ -2,6 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const authUtil = require("../../module/authUtil");
 const statusCode = require("../../module/statusCode");
 const responseMessage = require("../../module/responseMessage");
+const { postData } = require("../../util/response/data");
 const prisma = new PrismaClient();
 
 module.exports = {
@@ -17,6 +18,7 @@ module.exports = {
           },
         },
       });
+      
       if (myLikes.length === 0) {
         return res
           .status(200)
@@ -27,13 +29,14 @@ module.exports = {
             )
           );
       }
+      const processData = await postData(myLikes);
       return res
         .status(200)
         .send(
           authUtil.successTrue(
             statusCode.OK,
             responseMessage.MY_LIKE_ISSUE,
-            myLikes
+            processData
           )
         );
     } catch (err) {
@@ -70,13 +73,14 @@ module.exports = {
             )
           );
       }
+      const processData = await postData(myBads);
       return res
         .status(200)
         .send(
           authUtil.successTrue(
             statusCode.OK,
             responseMessage.MY_BAD_ISSUE,
-            myBads
+            processData
           )
         );
     } catch (err) {

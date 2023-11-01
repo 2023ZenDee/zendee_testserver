@@ -5,11 +5,11 @@ const refreshToken = require("./refreshToken");
 const { authenticateUser } = require("../../middleware/authenticate");
 const getUser = require("./getuser");
 const delUser = require("./deluser");
-const userFix = require("./userFix");
-const myIssue = require("./myissue");
+const userFix = require("./fixUser");
+const myIssue = require("./myIssue");
 const changePwd = require("./fixpwd");
-const myCmts = require("./comment");
-const userLikes = require("./userLikes");
+const myCmts = require("./myComment");
+const userLikes = require("./myLikeByPost");
 const {upload} = require('../../middleware/multer')
 const imageUploader = require("../../middleware/imageUploader");
 

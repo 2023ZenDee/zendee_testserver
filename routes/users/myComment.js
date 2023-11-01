@@ -2,16 +2,21 @@ const { PrismaClient } = require("@prisma/client");
 const authUtil = require("../../module/authUtil");
 const statusCode = require("../../module/statusCode");
 const responseMessage = require("../../module/responseMessage");
+const { postData } = require("../../util/response/data");
 const prisma = new PrismaClient();
 
 const myCmts = async (req, res) => {
   try {
-    const myComments = await prisma.comment.findMany({
-      where: {
-        authorIdx: req.user.userIdx,
-      },
+    const myPostByComment = await prisma.post.findMany({
+      where : {
+        comment : {
+          some : {
+            authorIdx : req.user.userIdx
+          }
+        }
+      }
     });
-    if (myComments.length === 0) {
+    if (myPostByComment.length === 0) {
       return res
         .status(200)
         .send(
@@ -21,13 +26,15 @@ const myCmts = async (req, res) => {
           )
         );
     }
+    const processData = await postData(myPostByComment);
+
     return res
       .status(200)
       .send(
         authUtil.successTrue(
           statusCode.OK,
           responseMessage.MY_COMMENTS_GET_SUCCESS,
-          myComments
+          processData
         )
       );
   } catch (err) {

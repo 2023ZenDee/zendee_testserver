@@ -2,6 +2,7 @@ const {PrismaClient} = require('@prisma/client');
 const authUtil = require('../../module/authUtil');
 const statusCode = require('../../module/statusCode');
 const responseMessage = require('../../module/responseMessage');
+const { postData } = require('../../util/response/data');
 const prisma = new PrismaClient();
 
 const myIssue = async(req,res) =>{
@@ -18,8 +19,9 @@ const myIssue = async(req,res) =>{
                 authUtil.successTrue(statusCode.NO_CONTENT, responseMessage.EMPTY_MY_ISSUE)
             )
         }
+        const processData = await postData(findMyIssue);
         return res.status(200).send(
-            authUtil.successTrue(statusCode.OK, responseMessage.SUCCESS_GET_MY_ISSUE, findMyIssue)
+            authUtil.successTrue(statusCode.OK, responseMessage.SUCCESS_GET_MY_ISSUE, processData)
         )
         
     }catch(err){
