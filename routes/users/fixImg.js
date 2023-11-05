@@ -16,7 +16,7 @@ const fixMyImg = async(req,res) =>{
             }
         });
         return res.status(200).send(
-            authUtil.successTrue(statusCode.OK, responseMessage.USER_IMG_FIX, updateImg)
+            authUtil.successTrue(statusCode.OK, responseMessage.USER_IMG_FIX, updateImg.image)
         )
 
     }catch(err){
