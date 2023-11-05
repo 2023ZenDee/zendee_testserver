@@ -36,6 +36,8 @@
     "nodemailer": "^6.9.4"
   },
   "devDependencies": {
+    "@babel/cli": "^7.23.0",
+    "@babel/core": "^7.23.2",
     "nodemon": "^2.0.22",
     "prisma": "^4.15.0"
   }

@@ -14,14 +14,15 @@ const fixedIssue = async (req, res) => {
         postIdx: issueIdx,
       },
     });
-    const filePath = req.file.location;
-    if (!filePath) {
+    const filePath = !req.file ? null : req.file.location;
+    
+    if(title.length === 0 || content.length===0){
       return res
-        .status(401)
+        .status(400)
         .send(
           authUtil.successTrue(
-            statusCode.UNAUTHORIZED,
-            responseMessage.INVALID_FILE
+            statusCode.BAD_REQUEST,
+            responseMessage.REQUIRE_ISSUE
           )
         );
     }

@@ -12,7 +12,7 @@ module.exports = {
   NO_ACCESS_TOKEN: "AccessToken이 없습니다.",
   TOKEN_EXPRIED: "AccessToken이 만료되었습니다. 다시 로그인 해주십시오.",
   INVALID_ACCESS_TOKEN: "유효하지 않은 Access Token입니다.",
-  NO_USER: "유효하지 않은 사용자 입니다.",
+  NO_USER: "없는 사용자 입니다.",
 
   NO_REFRESH_TOKEN: "RefreshToken이 없습니다.",
   REFRESH_TOKEN_EXPIRED: "RefreshToken이 만료되었습니다.",
@@ -92,7 +92,6 @@ module.exports = {
   SUCCESS_GET_MY_ISSUE: "내가 올린 이슈 조회 성공",
   FALSE_GET_MY_ISSUE: "내가 올린 이슈 조회 실패",
 
-  SUCCESS_USER_FIX: "유저 정보가 수정되었습니다.",
   FALSE_USER_FIX: "유저 정보 수정을 실패하였습니다.",
 
   SUCCESS_SORT: "정렬되었습니다.",
@@ -128,4 +127,9 @@ module.exports = {
   NULL_VALUE : " 올바르지 않은 형식입니다.",
 
   NOT_FOUND_COMMENT : "댓글을 찾을 수 없습니다.",
+  REQUIRE_NICK : "닉네임을 입력해주세요.",
+  REQUIRE_ISSUE : "제목과 내용을 입력해주세요.",
+
+  USER_NICK_FIX : "닉네임이 수정되었습니다.",
+  USER_IMG_FIX : "이미지가 수정되었습니다.",
 };
