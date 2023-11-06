@@ -13,6 +13,7 @@ const postByRegion = async(req,res)=>{
                 address : true
             }
         });
+        
         const result = await postCountDataByRegion(postCountsByRegion);
         return res.status(200).send(
             authUtil.successTrue(statusCode.OK, adminMessage.REGION_BY_ISSUE_SUCCESS, result)

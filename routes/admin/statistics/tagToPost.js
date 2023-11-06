@@ -2,12 +2,13 @@ const { PrismaClient } = require("@prisma/client");
 const authUtil = require("../../../module/authUtil");
 const statusCode = require("../../../module/statusCode");
 const adminMessage = require("../../../module/adminMessage");
+const { postCountDataByTag } = require("../global/adminResponse");
 const prisma = new PrismaClient();
 
 const postByTag = async (req, res) => {
   const allTags = await prisma.tag.findMany();
   try {
-    const postCountsByTag = await Promise.all(
+    const postCount = await Promise.all(
       allTags.map(async (tag) => {
         const posts = await prisma.post.findMany({
           where: {
@@ -21,23 +22,15 @@ const postByTag = async (req, res) => {
         return { tag: tag.tagName, posts };
       })
     );
-
-
-
-
     
-
-
-
-
-
+    const result = await postCountDataByTag(postCount);
     return res
       .status(200)
       .send(
         authUtil.successTrue(
           statusCode.OK,
           adminMessage.TAG_BY_ISSUE_SUCCESS,
-          postCountsByTag
+          result
         )
       );
   } catch (err) {
