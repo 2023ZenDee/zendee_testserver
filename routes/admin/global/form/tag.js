@@ -28,3 +28,5 @@ const tagForm = [
     value: 0,
   },
 ];
+
+module.exports = tagForm;

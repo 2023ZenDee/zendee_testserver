@@ -5,7 +5,6 @@ const refreshToken = require("./refreshToken");
 const { authenticateUser } = require("../../middleware/authenticate");
 const getUser = require("./getuser");
 const delUser = require("./deluser");
-const userFix = require("./fixUser");
 const myIssue = require("./myIssue");
 const changePwd = require("./fixpwd");
 const myCmts = require("./myComment");

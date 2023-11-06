@@ -132,4 +132,5 @@ module.exports = {
 
   USER_NICK_FIX : "닉네임이 수정되었습니다.",
   USER_IMG_FIX : "이미지가 수정되었습니다.",
+  TIME_BY_ISSUE : "시간별로 게시물 수를 조회하였습니다.",
 };
