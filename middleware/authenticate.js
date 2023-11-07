@@ -5,12 +5,13 @@ const util = require("../module/authUtil");
 const resMessage = require("../module/responseMessage");
 const statusCode = require("../module/statusCode");
 const responseMessage = require("../module/responseMessage");
+const authUtil = require("../module/authUtil");
 
 
 require("dotenv").config();
 const secret = process.env.SECRET_KEY;
 exports.authenticateUser = async (req, res, next) => {
-  const accessToken = req.headers.accesstoken; // 쿠키에서 Access Token을 가져옴
+  const accessToken = req.headers.accesstoken; 
   if (!accessToken) {
     return res
       .status(400)
@@ -20,9 +21,8 @@ exports.authenticateUser = async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(accessToken, secret); // Access Token 검증
+    const decoded = jwt.verify(accessToken, secret);
 
-    // Access Token의 payload에서 사용자 정보를 가져옴
     const userId = decoded.id;
     const user = await prisma.user.findUnique({ where: { userId } });
   
@@ -31,11 +31,8 @@ exports.authenticateUser = async (req, res, next) => {
         .status(401)
         .send(util.successTrue(statusCode.UNAUTHORIZED, resMessage.NO_USER));
     }
-
     
-    // 요청 객체에 사용자 정보를 첨부하여 다음 미들웨어 또는 라우트 핸들러로 이동
     req.user = user;
-    //console.log(req.user);
 
     next();
   } catch (err) {

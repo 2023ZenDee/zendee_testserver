@@ -21,9 +21,7 @@ const refreshToken = async (req, res) => {
   }
 
   try {
-    const decoded = jwt.verify(refreshToken, secret); // Refresh Token 검증
-
-    // Refresh Token의 payload에서 사용자 정보를 가져옴
+    const decoded = jwt.verify(refreshToken, secret);
     const userId = decoded.id;
     const user = await prisma.user.findUnique({ where: { userId } });
 
