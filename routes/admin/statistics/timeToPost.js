@@ -1,42 +1,44 @@
-const { PrismaClient, Prisma } = require("@prisma/client");
+const { PrismaClient } = require("@prisma/client");
 const authUtil = require("../../../module/authUtil");
 const statusCode = require("../../../module/statusCode");
 const responseMessage = require("../../../module/responseMessage");
+const timeForm = require('../global/form/time')
 const prisma = new PrismaClient();
 
 const postByTime = async (req, res) => {
   try {
-    const hourlyCounts = [];
-    const date = "2023-10-28";
-
-    for (let hour = 0; hour < 24; hour++) {
-      const startHour = new Date(date);
-
-      startHour.setHours(hour + 9, 0, 0, 0);
-
-      const endHour = new Date(startHour);
-      endHour.setHours(hour + 1 + 9);
-      const postCount = await prisma.post.count({
-        where: {
-          created_at: {
-            gte: startHour,
-            lte: endHour,
-          },
-        },
-      });
-      value = postCount;
-      
-
-      hourlyCounts.push({ hour, value });
-    }
-
+    timeForm.forEach(async(form)=>{
+      form.value = 0;
+    })
+     const postCountsByHour = await prisma.$queryRaw`
+      SELECT
+        DATE_FORMAT(created_at, "%H") AS hour,
+        COUNT(*) AS count
+      FROM
+        post
+      GROUP BY
+        hour
+    `;
+     const result = postCountsByHour.map((entry) => ({
+       hour: Number(entry.hour),
+       value: Number(entry.count),
+     }));
+     await Promise.all(
+        result.map(async(post)=>{
+          timeForm.forEach(async(form)=>{
+            if(post.hour === form.time){
+              form.value += post.value;
+            }
+          })
+        })
+     )
     return res
       .status(200)
       .send(
         authUtil.successTrue(
           statusCode.OK,
           responseMessage.TIME_BY_ISSUE,
-          hourlyCounts
+          timeForm
         )
       );
   } catch (err) {
@@ -51,4 +53,5 @@ const postByTime = async (req, res) => {
       );
   }
 };
+
 module.exports = postByTime;
