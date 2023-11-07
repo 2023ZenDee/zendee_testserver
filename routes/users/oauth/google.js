@@ -1,29 +1,30 @@
-const express = require("express");
-const axios = require("axios");
-const { generateAccessToken, generateRefreshToken } = require("../../../util/token/jwt");
-const authUtil = require("../../../module/authUtil");
-const statusCode = require("../../../module/statusCode");
-const responseMessage = require("../../../module/responseMessage");
-const { PrismaClient } = require("@prisma/client");
+const { OAuth2Client} = require('google-auth-library')
+const {PrismaClient} = require('@prisma/client')
 const prisma = new PrismaClient();
-require("dotenv").config();
+const client = new OAuth2Client();
+require('dotenv').config();
 
-const googleLogin = async (req, res) => {
-  const { email, nick } = req.body;
+const webGoogleLogin = async (req, res) => {
+  const { token } = req.body;
 
   try {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
     const findUser = await prisma.user.findUnique({
       where: {
-        email : email,
+        email : payload.email,
       },
     });
+    const user = {
+      userId: payload.nick,
+      email: payload.email,
+      nick: payload.nick,
+      provider: "GOOGLE",
+    };
     if (!findUser) {
-      const user = {
-        userId: nick,
-        email: email,
-        nick: nick,
-        provider: "GOOGLE",
-      };
 
       await prisma.user.create({
         data: user
@@ -44,6 +45,14 @@ const googleLogin = async (req, res) => {
     }else{
       const accessToken = generateAccessToken(email);
       const refreshToken = generateRefreshToken(email);
+      await prisma.user.update({
+        where : {
+          userId : findUser.userId
+        },
+        data : {
+          user
+        }
+      })
       res
         .status(200)
         .send(
@@ -67,4 +76,4 @@ const googleLogin = async (req, res) => {
       );
   }
 };
-module.exports = googleLogin;
+module.exports = webGoogleLogin;
