@@ -13,12 +13,12 @@ const getIssue = async (req, res) => {
     const filteringIssue = await prisma.post.findMany({
       where: {
         latitude: {
-          gte: parseFloat(lat) - 0.02,
-          lte: parseFloat(lat) + 0.02,
+          gte: parseFloat(lat) - 0.03,
+          lte: parseFloat(lat) + 0.03,
         },
         longitude: {
-          gte: parseFloat(lng) - 0.02,
-          lte: parseFloat(lng) + 0.02,
+          gte: parseFloat(lng) - 0.03,
+          lte: parseFloat(lng) + 0.03,
         },
         deleted_at: {
           not: {
