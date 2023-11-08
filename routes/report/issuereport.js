@@ -3,17 +3,23 @@ const authUtil = require('../../module/authUtil');
 const statusCode = require('../../module/statusCode');
 const responseMessage = require('../../module/responseMessage');
 const prisma = new PrismaClient();
-const {validationIssue} = require('../../validation/issuecheck');
 
 const issueReport = async(req,res) =>{
     const posterIdx = parseInt(req.params.idx);
     const { content } = req.body;
     try{
-        if(validationIssue(posterIdx)){
-            return res.status(404).send(
+        const post = await prisma.post.findUnique({
+            where : {
+                postIdx : posterIdx
+            }
+        })
+        if(!post){
+            return res.status(200).send(
                 authUtil.successTrue(statusCode.NOT_FOUND, responseMessage.NOT_FOUND_ISSUE)
             )
         }
+        
+        
         const reported = await prisma.postreporter.create({
             data : {
                 portReporterContent : content,
