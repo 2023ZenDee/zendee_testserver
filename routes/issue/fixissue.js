@@ -2,7 +2,6 @@ const { PrismaClient } = require("@prisma/client");
 const authUtil = require("../../module/authUtil");
 const statusCode = require("../../module/statusCode");
 const responseMessage = require("../../module/responseMessage");
-const { validationIssue } = require("../../validation/issuecheck");
 const prisma = new PrismaClient();
 
 const fixedIssue = async (req, res) => {
@@ -26,8 +25,8 @@ const fixedIssue = async (req, res) => {
           )
         );
     }
-    if(!validationIssue(issueIdx) || findIssue === null){
-      return res.status(404).send(
+    if(!findIssue){
+      return res.status(200).send(
         authUtil.successTrue(statusCode.NOT_FOUND, responseMessage.NOT_FOUND_ISSUE)
       )
     }

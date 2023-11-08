@@ -9,7 +9,8 @@ const issue = async (req, res) => {
   const { title, content, lat, lng, tag, deleted_at } = req.body;
   const currentTime = new Date();
   currentTime.setMinutes(currentTime.getMinutes() + parseInt(deleted_at));
-  const created_at = new Date().setHours(new Date().getHours() + 20);
+  const created_at = new Date();
+  created_at.setHours(created_at.getUTCHours()+18)
   currentTime.setHours(currentTime.getHours() + 9);
 
   const expired_at = currentTime;
