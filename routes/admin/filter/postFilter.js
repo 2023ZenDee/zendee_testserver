@@ -6,7 +6,7 @@ const { manyPost } = require("../../../util/response/post");
 
 
 const postFilter = async (req, res) => {
-  const { sortBy, address } = req.query;
+  const { sortBy, address, page, pageSize } = req.query;
   try {
     if(!sortBy && !address){
       return res
@@ -14,8 +14,11 @@ const postFilter = async (req, res) => {
         .send(authUtil.successTrue(statusCode.BAD_REQUEST, responseMessage.SORT_UNKNOW));
     }
     const soltedPost = await sortPost(sortBy, address);
-    const result = await manyPost(soltedPost);
+    const post = await manyPost(soltedPost);
     
+     const start = (page - 1) * pageSize;
+     const end = start + parseInt(pageSize);
+     const result = post.slice(start, end);
     return res.status(200).send(
       authUtil.successTrue(statusCode.OK, responseMessage.SUCCESS_SORT,result)
     )

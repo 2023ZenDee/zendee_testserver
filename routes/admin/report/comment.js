@@ -5,7 +5,12 @@ const adminMessage = require("../../../module/adminMessage");
 const prisma = new PrismaClient();
 const getReportedComment = async (req, res) => {
   try {
-    const reportedIssue = await prisma.commentreporter.findMany();
+    const { page, pageSize } = req.query;
+    const skip = (page - 1) * pageSize;
+    const reportedIssue = await prisma.commentreporter.findMany({
+      skip,
+      take : pageSize
+    });
     return res
       .status(200)
       .send(
