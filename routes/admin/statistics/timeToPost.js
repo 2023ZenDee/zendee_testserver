@@ -32,6 +32,10 @@ const postByTime = async (req, res) => {
           })
         })
      )
+     timeForm.forEach((post) => {
+      post.time = post.time.toString()
+     })
+     
     return res
       .status(200)
       .send(
