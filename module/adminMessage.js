@@ -9,11 +9,19 @@ module.exports = {
   REGION_BY_ISSUE_SUCCESS: "지역별 게시물 조회 성공",
 
   TAG_BY_ISSUE_SUCCESS: "태그별 게시물 조회 성공",
-  TAG_BY_ISSUE_ERROR : "태그별 게시물 조회 실패",
-  
-  NOT_FOUND_USER : "유저를 찾을 수 없습니다.",
-  USER_FOUND_SUCCESS : "유저를 성공적으로 조회했습니다.",
+  TAG_BY_ISSUE_ERROR: "태그별 게시물 조회 실패",
 
-  SERVER_ERROR : "서버 에러"
+  NOT_FOUND_USER: "유저를 찾을 수 없습니다.",
+  USER_FOUND_SUCCESS: "유저를 성공적으로 조회했습니다.",
+
+  ISSUE_DELETE: "게시물 삭제 성공",
+  USER_DELETE: "유저 삭제 성공",
+  COMMENT_DELETE : "댓글 삭제 성공",
+
+  SERVER_ERROR: "서버 에러",
+
+  NOT_FOUND_ISSUE: "존재하지 않는 이슈 입니다.",
+  NOT_FOUND_USER: "존재하지 않는 유저 입니다.",
+  NOT_FOUND_COMMENT: "존재하지 않는 댓글 입니다.",
 
 };
