@@ -14,6 +14,8 @@ const issueRanked = async (req, res) => {
   const { sortBy, page, pageSize } = req.query;
   const { tags } = req.body;
   let postsToSort;
+  let currentTime = new Date();
+  currentTime = new Date(currentTime.setHours(currentTime.getHours() + 9)); 
   try {
     const resultTag = await validTag(tags);
     if(!page || !pageSize|| page<=0){
@@ -33,6 +35,13 @@ const issueRanked = async (req, res) => {
           include: {
             tags: true,
           },
+          where : {
+            deleted_at :{
+              not: {
+                lte : currentTime
+              }
+            }
+          }
         });
         break;
       case "likes":
@@ -42,6 +51,13 @@ const issueRanked = async (req, res) => {
           // take: parseInt(pageSize),
           include: {
             tags: true,
+          },
+          where: {
+            deleted_at: {
+              not: {
+                lte: currentTime,
+              },
+            },
           },
         });
         break;
